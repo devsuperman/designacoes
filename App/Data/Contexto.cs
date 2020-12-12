@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using App.Models;
 
 namespace App.Data
 {
@@ -7,7 +8,8 @@ namespace App.Data
         public Contexto(DbContextOptions<Contexto> options): base(options)
         {
             
-        }             
+        }   
+        public DbSet<Designacao> Designacoes {get;set;}                 
     
     }
 }
