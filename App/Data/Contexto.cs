@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using App.Models;
 
 namespace App.Data
@@ -10,6 +10,7 @@ namespace App.Data
             
         }   
         public DbSet<Designacao> Designacoes {get;set;}                 
+        public DbSet<Publicador> Publicadores { get; set; }
     
     }
 }

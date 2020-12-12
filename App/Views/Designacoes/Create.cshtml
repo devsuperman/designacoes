@@ -1,0 +1,95 @@
+﻿@model App.Models.Designacao
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Designacao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Data" class="control-label"></label>
+                <input asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DesignadoId" class="control-label"></label>
+                <select asp-for="DesignadoId" class="form-control" asp-items="ViewBag.DesignadoId">
+                    <option value=""> Selecione </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AjudanteId" class="control-label"></label>
+                <select asp-for="AjudanteId" class="form-control" asp-items="ViewBag.AjudanteId">
+                    <option value=""> Selecione </option>
+                </select>
+            </div>
+
+            <div class='form-group'>
+                <strong>Tipo de Parte</strong>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Tipo" id="TipoLeitura" value="Leitura">
+                    <label class="form-check-label" for="TipoLeitura">
+                        Leitura
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Tipo" id="TipoPrimeiraConversa" value="PrimeiraConversa">
+                    <label class="form-check-label" for="TipoPrimeiraConversa">
+                        Primeira Conversa
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Tipo" id="TipoRevisita" value="Revisita">
+                    <label class="form-check-label" for="TipoRevisita">
+                        Revisita
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Tipo" id="TipoEstudoBiblico" value="EstudoBiblico">
+                    <label class="form-check-label" for="TipoEstudoBiblico">
+                        Estudo Bíblico
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Tipo" id="TipoDiscurso" value="Discurso">
+                    <label class="form-check-label" for="TipoDiscurso">
+                        Discurso
+                    </label>
+                </div>                        
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Observacao" class="control-label"></label>
+                <input asp-for="Observacao" class="form-control" />
+                <span asp-validation-for="Observacao" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

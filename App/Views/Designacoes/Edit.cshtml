@@ -1,0 +1,59 @@
+﻿@model App.Models.Designacao
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Designacao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label>
+                <input asp-for="Tipo" class="form-control" />
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DesignadoId" class="control-label"></label>
+                <select asp-for="DesignadoId" class="form-control" asp-items="ViewBag.DesignadoId"></select>
+                <span asp-validation-for="DesignadoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AjudanteId" class="control-label"></label>
+                <select asp-for="AjudanteId" class="form-control" asp-items="ViewBag.AjudanteId"></select>
+                <span asp-validation-for="AjudanteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Observacao" class="control-label"></label>
+                <input asp-for="Observacao" class="form-control" />
+                <span asp-validation-for="Observacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Data" class="control-label"></label>
+                <input asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataDeRegistro" class="control-label"></label>
+                <input asp-for="DataDeRegistro" class="form-control" />
+                <span asp-validation-for="DataDeRegistro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

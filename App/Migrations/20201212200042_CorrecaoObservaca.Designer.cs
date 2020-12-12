@@ -3,14 +3,16 @@ using System;
 using App.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace App.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20201212200042_CorrecaoObservaca")]
+    partial class CorrecaoObservaca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,7 +25,7 @@ namespace App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AjudanteId")
+                    b.Property<int>("AjudanteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
@@ -74,7 +76,9 @@ namespace App.Migrations
                 {
                     b.HasOne("App.Models.Publicador", "Ajudante")
                         .WithMany()
-                        .HasForeignKey("AjudanteId");
+                        .HasForeignKey("AjudanteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("App.Models.Publicador", "Designado")
                         .WithMany()

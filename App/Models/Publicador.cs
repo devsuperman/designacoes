@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace App.Models
 {
-    public class Pessoa
+    public class Publicador
     {
         public int Id { get; set; }
 

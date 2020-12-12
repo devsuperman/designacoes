@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20201212193930_Genesis2")]
-    partial class Genesis2
+    [Migration("20201212201436_AjudanteNullable")]
+    partial class AjudanteNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,8 +34,11 @@ namespace App.Migrations
                     b.Property<DateTime>("DataDeRegistro")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("PublicadorId")
+                    b.Property<int>("DesignadoId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Observacao")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Tipo")
                         .IsRequired()
@@ -45,12 +48,12 @@ namespace App.Migrations
 
                     b.HasIndex("AjudanteId");
 
-                    b.HasIndex("PublicadorId");
+                    b.HasIndex("DesignadoId");
 
                     b.ToTable("Designacoes");
                 });
 
-            modelBuilder.Entity("App.Models.Pessoa", b =>
+            modelBuilder.Entity("App.Models.Publicador", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,22 +69,24 @@ namespace App.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Publicadores");
                 });
 
             modelBuilder.Entity("App.Models.Designacao", b =>
                 {
-                    b.HasOne("App.Models.Pessoa", "Ajudante")
+                    b.HasOne("App.Models.Publicador", "Ajudante")
                         .WithMany()
                         .HasForeignKey("AjudanteId");
 
-                    b.HasOne("App.Models.Pessoa", "Publicador")
+                    b.HasOne("App.Models.Publicador", "Designado")
                         .WithMany()
-                        .HasForeignKey("PublicadorId");
+                        .HasForeignKey("DesignadoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Ajudante");
 
-                    b.Navigation("Publicador");
+                    b.Navigation("Designado");
                 });
 #pragma warning restore 612, 618
         }

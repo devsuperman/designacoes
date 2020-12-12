@@ -9,17 +9,17 @@ namespace App.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Pessoa",
+                name: "Publicadores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Sexo = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    Nome = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    Sexo = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pessoa", x => x.Id);
+                    table.PrimaryKey("PK_Publicadores", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,9 +28,10 @@ namespace App.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Tipo = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    PublicadorId = table.Column<int>(type: "int", nullable: true),
-                    AjudanteId = table.Column<int>(type: "int", nullable: true),
+                    Tipo = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    DesignadoId = table.Column<int>(type: "int", nullable: false),
+                    AjudanteId = table.Column<int>(type: "int", nullable: false),
+                    Observacao = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataDeRegistro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
@@ -38,17 +39,17 @@ namespace App.Migrations
                 {
                     table.PrimaryKey("PK_Designacoes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Designacoes_Pessoa_AjudanteId",
+                        name: "FK_Designacoes_Publicadores_AjudanteId",
                         column: x => x.AjudanteId,
-                        principalTable: "Pessoa",
+                        principalTable: "Publicadores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Designacoes_Pessoa_PublicadorId",
-                        column: x => x.PublicadorId,
-                        principalTable: "Pessoa",
+                        name: "FK_Designacoes_Publicadores_DesignadoId",
+                        column: x => x.DesignadoId,
+                        principalTable: "Publicadores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -57,9 +58,9 @@ namespace App.Migrations
                 column: "AjudanteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Designacoes_PublicadorId",
+                name: "IX_Designacoes_DesignadoId",
                 table: "Designacoes",
-                column: "PublicadorId");
+                column: "DesignadoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -68,7 +69,7 @@ namespace App.Migrations
                 name: "Designacoes");
 
             migrationBuilder.DropTable(
-                name: "Pessoa");
+                name: "Publicadores");
         }
     }
 }

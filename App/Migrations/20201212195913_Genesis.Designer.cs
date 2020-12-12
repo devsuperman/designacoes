@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20201212193708_Genesis")]
+    [Migration("20201212195913_Genesis")]
     partial class Genesis
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AjudanteId")
+                    b.Property<int>("AjudanteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
@@ -34,51 +34,62 @@ namespace App.Migrations
                     b.Property<DateTime>("DataDeRegistro")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("PublicadorId")
+                    b.Property<int>("DesignadoId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Observacao")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Tipo")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AjudanteId");
 
-                    b.HasIndex("PublicadorId");
+                    b.HasIndex("DesignadoId");
 
                     b.ToTable("Designacoes");
                 });
 
-            modelBuilder.Entity("App.Models.Pessoa", b =>
+            modelBuilder.Entity("App.Models.Publicador", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Sexo")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Publicadores");
                 });
 
             modelBuilder.Entity("App.Models.Designacao", b =>
                 {
-                    b.HasOne("App.Models.Pessoa", "Ajudante")
+                    b.HasOne("App.Models.Publicador", "Ajudante")
                         .WithMany()
-                        .HasForeignKey("AjudanteId");
+                        .HasForeignKey("AjudanteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("App.Models.Pessoa", "Publicador")
+                    b.HasOne("App.Models.Publicador", "Designado")
                         .WithMany()
-                        .HasForeignKey("PublicadorId");
+                        .HasForeignKey("DesignadoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Ajudante");
 
-                    b.Navigation("Publicador");
+                    b.Navigation("Designado");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,7 +20,7 @@ namespace App.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Designacoes");
         }
 
         public IActionResult Privacy()
