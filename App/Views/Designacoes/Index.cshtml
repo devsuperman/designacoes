@@ -4,12 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+<table class="table montarDataTable">
     <thead>
         <tr>
             <th>
@@ -27,9 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Data)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataDeRegistro)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -51,9 +52,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataDeRegistro)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
@@ -63,3 +62,7 @@
 }
     </tbody>
 </table>
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+}
