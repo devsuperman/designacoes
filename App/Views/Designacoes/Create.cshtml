@@ -1,12 +1,14 @@
 ﻿@model App.Models.Designacao
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nova Designação";
 }
 
-<h1>Create</h1>
+<h1>
+    📃
+    @ViewData["Title"]
+</h1>
 
-<h4>Designacao</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,7 +31,7 @@
             <div class="form-group">
                 <label asp-for="AjudanteId" class="control-label"></label>
                 <select asp-for="AjudanteId" class="form-control" asp-items="ViewBag.AjudanteId">
-                    <option value=""> Selecione </option>
+                    <option value="Sem ajudante"> Sem ajudante </option>
                 </select>
             </div>
 

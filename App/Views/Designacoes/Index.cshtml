@@ -1,22 +1,20 @@
 ﻿@model IEnumerable<App.Models.Designacao>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Designações";
 }
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>
+    <a asp-action="Create" class='btn btn-primary'> + </a>
+    @ViewData["Title"]
+</h1>
 
 <table class="table montarDataTable">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Tipo)
+                @Html.DisplayNameFor(model => model.Data)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Designado)
@@ -25,44 +23,41 @@
                 @Html.DisplayNameFor(model => model.Ajudante)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observacao)
+                @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Data)
+                @Html.DisplayNameFor(model => model.Observacao)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Designado.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ajudante.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Designado.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ajudante.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacao)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
-@section scripts{
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-}

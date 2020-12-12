@@ -22,7 +22,7 @@ namespace App.Controllers
         // GET: Publicadores
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Publicadores.ToListAsync());
+            return View(await _context.Publicadores.OrderBy(a => a.Nome).ToListAsync());
         }
 
         // GET: Publicadores/Details/5

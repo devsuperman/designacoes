@@ -1,15 +1,17 @@
 ﻿@model IEnumerable<App.Models.Publicador>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Publicadores";
 }
 
-<h1>Index</h1>
+<h1>    
+    <a asp-action="Create" class='btn btn-primary'> + </a>
+    @ViewData["Title"]
+</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table montarDataTable">
     <thead>
         <tr>
             <th>

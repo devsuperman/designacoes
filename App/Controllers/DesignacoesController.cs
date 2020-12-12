@@ -23,8 +23,13 @@ namespace App.Controllers
         // GET: Designacoes
         public async Task<IActionResult> Index()
         {
-            var contexto = _context.Designacoes.Include(d => d.Ajudante).Include(d => d.Designado);
-            return View(await contexto.ToListAsync());
+            var lista = await _context.Designacoes
+                .Include(d => d.Ajudante)
+                .Include(d => d.Designado)
+                .OrderByDescending(a => a.Data)
+                .ToListAsync();
+
+            return View(lista);
         }
 
         // GET: Designacoes/Details/5
