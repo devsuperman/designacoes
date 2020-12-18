@@ -37,6 +37,9 @@
         {
             <tr>
                 <td>
+                    <a asp-action='Details' asp-route-id='@item.Id' class='btn btn-link'>
+                        📲
+                    </a>
                     @Html.DisplayFor(modelItem => item.Data)
                 </td>
                 <td>

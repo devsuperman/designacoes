@@ -73,3 +73,15 @@ body {
 h1{
   font-size: 1.5rem;
 }
+
+.titulo-designacao{
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.linha-pontilhada{
+  border-bottom-style: dashed;    
+  min-height: 20px;
+  border-width: 1px;
+}
