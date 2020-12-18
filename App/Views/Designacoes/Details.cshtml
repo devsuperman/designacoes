@@ -6,173 +6,178 @@
 
 <input type='hidden' asp-for='Tipo'>
 
-<div class='card'>
+<div id='printDesignacao'></div>
 
-    <div class='card-body'>
+    <div class='card card-designacao' id='divDesignacao'>
 
-        <h1 class='titulo-designacao'>            
-            DESIGNAÇÃO PARA A REUNIÃO <br>
-            NOSSA VIDA E MINISTÉRIO CRISTÃO
-        </h1>
+        <div class='card-body'>
+
+            <h1 class='titulo-designacao'>            
+                DESIGNAÇÃO PARA A REUNIÃO <br>
+                NOSSA VIDA E MINISTÉRIO CRISTÃO
+            </h1>
 
 
-        <p class="d-flex">
-            <strong>Nome: </strong>
-            <span class='linha-pontilhada flex-grow-1'>
-                @Model.Designado.Nome
-            </span>
-        </p>
+            <p class="d-flex">
+                <strong class='mr-2'>Nome: </strong>
+                <span class='linha-pontilhada flex-grow-1'>
+                    @Model.Designado.Nome
+                </span>
+            </p>
 
-        <p class='d-flex'>
-            <strong>Ajudante: </strong>
-            <span class='linha-pontilhada flex-grow-1'>
-                @Model.Ajudante?.Nome
-            </span>
-        </p>
+            <p class='d-flex'>
+                <strong class='mr-2'>Ajudante: </strong>
+                <span class='linha-pontilhada flex-grow-1'>
+                    @Model.Ajudante?.Nome
+                </span>
+            </p>
 
-        <p class='d-flex'>
-            <strong>Data: </strong>
-            <span class='linha-pontilhada flex-grow-1'>
-                @Model.Data.ToShortDateString()
-            </span>
-        </p>
+            <p class='d-flex'>
+                <strong class='mr-2'>Data: </strong>
+                <span class='linha-pontilhada flex-grow-1'>
+                    @Model.Data.ToShortDateString()
+                </span>
+            </p>
 
-        <br>
+            <br>
+                <strong>
+                    Designação:
+                </strong>
+
+            <div class='row'>
+                <div class='col ml-4'>
+
+                        <div class="form-check">
+                            <input class="form-check-input" name='Tipo' type='checkbox' value='Leitura'>
+                            <label class="form-check-label" for=''>
+                                Leitura da Bíblia
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" name='Tipo' type='checkbox' value='PrimeiraConversa'>
+                            <label class="form-check-label" for=''>
+                                Primeira Conversa
+                            </label>
+                            
+                            <div class='d-flex'>
+                                <span></span>
+                                <span class='linha-pontilhada flex-grow-1'>
+                                    
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" name='Tipo' type='checkbox' value='Revisita'>
+                            <label class="form-check-label" for=''>
+                                Primeira Revisita
+                            </label>
+
+                            <div class='d-flex'>
+                                <span></span>
+                                <span class='linha-pontilhada flex-grow-1'>
+                                    
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <div class='col'>
+
+                    <div class="form-check">
+                        <input class="form-check-input" name='Tipo' type='checkbox' value='SegundaRevisita'>
+                        <label class="form-check-label" for=''>
+                            Segunda Revisita
+                        </label>
+
+                        <div class='d-flex'>
+                            <span></span>
+                            <span class='linha-pontilhada flex-grow-1'>
+                                
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" name='Tipo' type='checkbox' value='EstudoBiblico'>
+                        <label class="form-check-label" for=''>
+                            Estudo Bíblico
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" name='Tipo' type='checkbox' value='Discurso'>
+                        <label class="form-check-label" for=''>
+                            Discurso
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" name='Tipo' type='checkbox' value='Discurso'>
+                        <div class='d-flex'>
+                            <span>Outra:</span>
+                            <span class='linha-pontilhada flex-grow-1'>
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div> 
+
+            <br>
             <strong>
-                Designação:
+                A ser feito(a) no(a):
             </strong>
 
-        <div class='row'>
-            <div class='col'>
-
-                    <div class="form-check">
-                        <input class="form-check-input" name='Tipo' type='checkbox' value='Leitura'>
-                        <label class="form-check-label" for=''>
-                            Leitura da Bíblia
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" name='Tipo' type='checkbox' value='PrimeiraConversa'>
-                        <label class="form-check-label" for=''>
-                            Primeira Conversa
-                        </label>
-                        
-                        <div class='d-flex'>
-                            <span></span>
-                            <span class='linha-pontilhada flex-grow-1'>
-                                
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" name='Tipo' type='checkbox' value='Revisita'>
-                        <label class="form-check-label" for=''>
-                            Primeira Revisita
-                        </label>
-
-                        <div class='d-flex'>
-                            <span></span>
-                            <span class='linha-pontilhada flex-grow-1'>
-                                
-                            </span>
-                        </div>
-
-                    </div>
-                </div>
-
-            <div class='col'>
-
+            <div class='ml-4'>
                 <div class="form-check">
-                    <input class="form-check-input" name='Tipo' type='checkbox' value='SegundaRevisita'>
-                    <label class="form-check-label" for=''>
-                        Segunda Revisita
-                    </label>
-
-                    <div class='d-flex'>
-                        <span></span>
-                        <span class='linha-pontilhada flex-grow-1'>
-                            
-                        </span>
-                    </div>
-
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" name='Tipo' type='checkbox' value='EstudoBiblico'>
-                    <label class="form-check-label" for=''>
-                        Estudo Bíblico
+                    <input class="form-check-input" type='checkbox' checked>
+                    <label class="form-check-label">
+                        Salão Principal
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" name='Tipo' type='checkbox' value='Discurso'>
-                    <label class="form-check-label" for=''>
-                        Discurso
+                    <input class="form-check-input" type='checkbox'>
+                    <label class="form-check-label">
+                        Sala B
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" name='Tipo' type='checkbox' value='Discurso'>
-                    <div class='d-flex'>
-                        <span>Outra:</span>
-                        <span class='linha-pontilhada flex-grow-1'>
-                            
-                        </span>
-                    </div>
+                    <input class="form-check-input" type='checkbox'>
+                    <label class="form-check-label">
+                        Sala C
+                    </label>
                 </div>
-
             </div>
-        </div> 
 
-        <br>
-        <strong>
-            A ser feito(a) no(a):
-        </strong>
+            <br>
+
+            <p>
+                <strong>Observação para o estudante: </strong> 
+                A lição da brochura <i>Melhore</i> e a fonte de matéria para a sua designação estão na 
+                <i>Apostila da Reunião Vida e Ministério</i>. 
+                Estude a lição da brochura para saber como aplicar o ponto que você vai considerar.
+            <p/>
+            <p>
+                S-89-T 10/19
+            </p>
 
 
-        <div class="form-check">
-            <input class="form-check-input" type='checkbox' checked>
-            <label class="form-check-label">
-                Salão Principal
-            </label>
+
         </div>
 
-        <div class="form-check">
-            <input class="form-check-input" type='checkbox'>
-            <label class="form-check-label">
-                Sala B
-            </label>
-        </div>
-
-        <div class="form-check">
-            <input class="form-check-input" type='checkbox'>
-            <label class="form-check-label">
-                Sala C
-            </label>
-        </div>
-
-        <br>
-
-        <p>
-            <strong>Observação para o estudante: </strong> 
-            A lição da brochura <i>Melhore</i> e a fonte de matéria para a sua designação estão na 
-            <i>Apostila da Reunião Vida e Ministério</i>. 
-            Estude a lição da brochura para saber como aplicar o ponto que você vai considerar.
-        <p/>
-        <p>
-            S-89-T 10/19
-        </p>
-
-
+        
 
     </div>
 
-    
 
-</div>
 
 <br>
 
@@ -182,5 +187,6 @@
 </div>
 
 @section scripts{
+    <script src='~/js/html2canvas.js'></script>
     <script src="~/js/designacoes.js"></script>
 }
