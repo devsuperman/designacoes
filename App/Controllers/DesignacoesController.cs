@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
+using App.Constantes;
 
 namespace App.Controllers
 {
@@ -57,6 +58,8 @@ namespace App.Controllers
         {
             ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome");
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome");
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+
             return View();
         }
 
@@ -75,6 +78,8 @@ namespace App.Controllers
             }
             ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+
             return View(designacao);
         }
 
@@ -93,6 +98,8 @@ namespace App.Controllers
             }
             ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+
             return View(designacao);
         }
 
@@ -101,7 +108,7 @@ namespace App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tipo,DesignadoId,AjudanteId,Observacao,Data,DataDeRegistro")] Designacao designacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Tipo,DesignadoId,AjudanteId,Observacao,Data")] Designacao designacao)
         {
             if (id != designacao.Id)
             {
@@ -130,6 +137,8 @@ namespace App.Controllers
             }
             ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            
             return View(designacao);
         }
 

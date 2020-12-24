@@ -1,7 +1,7 @@
 ﻿@model App.Models.Designacao
 
 @{
-    ViewData["Title"] = "Nova Designação";
+    ViewData["Title"] = "Editar Designação";
 }
 
 <h1>
@@ -37,45 +37,21 @@
                 </select>
             </div>
 
-            <div class='form-group'>
+         <div class='form-group'>
                 <strong>Tipo de Parte</strong>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Tipo" id="TipoLeitura" value="Leitura">
-                    <label class="form-check-label" for="TipoLeitura">
-                        Leitura
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Tipo" id="TipoPrimeiraConversa" value="PrimeiraConversa">
-                    <label class="form-check-label" for="TipoPrimeiraConversa">
-                        Primeira Conversa
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Tipo" id="TipoRevisita" value="Revisita">
-                    <label class="form-check-label" for="TipoRevisita">
-                        Revisita
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Tipo" id="TipoEstudoBiblico" value="EstudoBiblico">
-                    <label class="form-check-label" for="TipoEstudoBiblico">
-                        Estudo Bíblico
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Tipo" id="TipoDiscurso" value="Discurso">
-                    <label class="form-check-label" for="TipoDiscurso">
-                        Discurso
-                    </label>
-                </div>                        
+                @foreach (var tipo in (string[])ViewData["Tipos"])
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for='Tipo' value="@tipo">
+                        <label class="form-check-label" for="TipoLeitura">
+                            @tipo
+                        </label>
+                    </div>                    
+                }                                 
 
             </div>
+
 
             <div class="form-group">
                 <label asp-for="Observacao" class="control-label"></label>

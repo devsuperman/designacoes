@@ -23,7 +23,6 @@ namespace App.Models
         [Required, DataType(DataType.Date)]
         public DateTime Data { get; set; }
 
-        public DateTime DataDeRegistro { get; set; } = DateTime.Now;
-        
+        public DateTime DataDeRegistro { get; set; } = DateTime.Now;        
     }
 }
