@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.Models
 {
@@ -10,10 +11,13 @@ namespace App.Models
         [Required]
         public string Tipo { get; set; }                
 
+        [InverseProperty("Designacoes")]
         public Publicador Designado { get; set; }
+
         [Required]
         public int DesignadoId { get; set; }
 
+        [InverseProperty("DesignacoesComoAjudante")]
         public Publicador Ajudante { get; set; }
         
         public int? AjudanteId { get; set; }
@@ -24,5 +28,13 @@ namespace App.Models
         public DateTime Data { get; set; }
 
         public DateTime DataDeRegistro { get; set; } = DateTime.Now;        
+
+        public bool SemanaAtual(DateTime hoje)
+        {
+            var segundaDessaSemana = this.Data.AddDays(-3);
+            var domingoDessaSemana = this.Data.AddDays(3);
+            
+            return (hoje >= segundaDessaSemana && hoje <= domingoDessaSemana);  
+        } 
     }
 }

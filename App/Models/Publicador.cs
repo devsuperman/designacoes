@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace App.Models
@@ -11,5 +12,8 @@ namespace App.Models
 
         [Required]
         public string Sexo { get; set; }
+
+        public List<Designacao> Designacoes { get; set; }
+        public List<Designacao> DesignacoesComoAjudante { get; set; }
     }
 }

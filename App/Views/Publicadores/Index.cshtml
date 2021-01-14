@@ -1,4 +1,4 @@
-﻿@model IEnumerable<App.Models.Publicador>
+﻿@model IEnumerable<App.Models.PublicadorDTO>
 
 @{
     ViewData["Title"] = "Publicadores";
@@ -15,10 +15,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sexo)
+                Sexo
+            </th>
+            <th>
+                Última Designação
+            </th>
+            <th>
+                Última como Ajudante
             </th>
             <th></th>
         </tr>
@@ -27,11 +33,20 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nome)
+                @item.Nome
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sexo)
+                @item.Sexo
             </td>
+
+            <td>
+                @item.DataDaUltimaDesignacao?.ToShortDateString()
+            </td>
+
+            <td>
+                @item.DataDaUltimaDesignacaoComoAjudante?.ToShortDateString()
+            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

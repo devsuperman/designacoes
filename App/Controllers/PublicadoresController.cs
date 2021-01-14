@@ -22,7 +22,19 @@ namespace App.Controllers
         // GET: Publicadores
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Publicadores.OrderBy(a => a.Nome).ToListAsync());
+            var lista = await _context.Publicadores                
+                .Select(a => new PublicadorDTO
+                {
+                    Id = a.Id,
+                    Nome = a.Nome,
+                    Sexo = a.Sexo,
+                    DataDaUltimaDesignacao = a.Designacoes.OrderByDescending(o => o.Data).FirstOrDefault().Data,
+                    DataDaUltimaDesignacaoComoAjudante = a.DesignacoesComoAjudante.OrderByDescending(o => o.Data).FirstOrDefault().Data                    
+                })
+                .OrderBy(a => a.DataDaUltimaDesignacao)
+                .ToListAsync();  
+                
+            return View(lista);
         }
 
         // GET: Publicadores/Details/5

@@ -24,13 +24,27 @@ namespace App.Controllers
         // GET: Designacoes
         public async Task<IActionResult> Index()
         {
+            var hoje = DateTime.Now;
+
             var lista = await _context.Designacoes
-                .Include(d => d.Ajudante)
-                .Include(d => d.Designado)
-                .OrderByDescending(a => a.Data)
+                .Select(a => new DesignacaoDTO
+                {
+                    Id = a.Id,
+                    Data = a.Data,
+                    Designado = a.Designado.Nome,
+                    Ajudante = a.Ajudante.Nome,
+                    Tipo = a.Tipo,
+                    Observacao = a.Observacao,
+                    SemanaAtual = a.SemanaAtual(hoje)
+                })
                 .ToListAsync();
 
-            return View(lista);
+            var listaAgrupada = lista
+                .GroupBy(a => a.Data)
+                .OrderByDescending(a => a.Key)
+                .ToList();                
+
+            return View(listaAgrupada);
         }
 
         // GET: Designacoes/Details/5
@@ -138,7 +152,7 @@ namespace App.Controllers
             ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
-            
+
             return View(designacao);
         }
 

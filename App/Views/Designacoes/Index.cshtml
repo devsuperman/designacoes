@@ -1,66 +1,49 @@
-﻿@model IEnumerable<App.Models.Designacao>
+﻿@model List<IGrouping<DateTime, App.Models.DesignacaoDTO>>
 
 @{
-    ViewData["Title"] = "Designações";
+    ViewData["Title"] = "Designações";    
 }
-
 
 <h1>
     <a asp-action="Create" class='btn btn-primary'> + </a>
     @ViewData["Title"]
 </h1>
 
-<table class="table montarDataTable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Data)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Designado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ajudante)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observacao)
-            </th>
+<div class="accordion" id="accordionExample">
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a asp-action='Details' asp-route-id='@item.Id' class='btn btn-link'>
-                        📲
-                    </a>
-                    @Html.DisplayFor(modelItem => item.Data)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Designado.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ajudante.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tipo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacao)
-                </td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @foreach (var grupo in Model)
+    {
+        var reff = grupo.FirstOrDefault();
+
+        <div class="card">
+
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@reff.Id"
+                        aria-expanded="true" aria-controls="collapse-@reff.Id">
+                        @grupo.Key.ToShortDateString()
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapse-@reff.Id" class="collapse @(reff.SemanaAtual ? "show" : "")" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+
+                    <div class='list-group list-group-flush '>
+                        @foreach (var designacao in grupo)
+                        {
+                            <a class='list-group-item list-group-item-action' asp-action='Details' asp-route-id='@designacao.Id'>
+                                <strong> @designacao.Tipo @designacao.Observacao  </strong> <br>
+                                <span class='text-muted'> @designacao.Designado e @designacao.Ajudante</span> 
+                            </a>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>
