@@ -35,7 +35,7 @@
                         {
                             <a class='list-group-item list-group-item-action' asp-action='Details' asp-route-id='@designacao.Id'>
                                 <strong> @designacao.Tipo @designacao.Observacao  </strong> <br>
-                                <span class='text-muted'> @designacao.Designado e @designacao.Ajudante</span> 
+                                <span class='text-muted'> @designacao.Designado @(!string.IsNullOrEmpty(designacao.Ajudante) ? "e" : "") @designacao.Ajudante</span> 
                             </a>
                         }
                     </div>
