@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,9 @@ namespace App
             services.AddDbContext<Contexto>(a =>
                 a.UseMySql(cnn, ServerVersion.AutoDetect(cnn)));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o => { o.LoginPath = "/Home/Index"; });
+            services.AddAuthorization();
+
             services.AddControllersWithViews();
         }
 
@@ -43,6 +47,7 @@ namespace App
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

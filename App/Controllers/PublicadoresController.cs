@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using App.Data;
+using App.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using App.Data;
-using App.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App.Controllers
 {
+    [Authorize]
     public class PublicadoresController : Controller
     {
         private readonly Contexto _context;
