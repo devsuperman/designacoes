@@ -1,28 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    OcultarObservacoes()
     MarcarCheckboxDeAcordoComModel()
     ConverterHTMlemImagem()
 
 })
 
+function OcultarObservacoes() {    
+    $('.observacao').hide()
+}
+
 function MarcarCheckboxDeAcordoComModel() {
+    
     let tipoDaDesignacao = document.querySelector('#Tipo').value;
-    let observacao = document.querySelector('#Observacao').value;
     let checkboxes = document.querySelectorAll('.check-tipo');
 
     checkboxes.forEach(checkbox => {
 
-        console.log(checkbox)
+        console.log(tipoDaDesignacao)
 
         if (checkbox.value == tipoDaDesignacao) {            
 
             checkbox.checked = true;
-
             var $span = checkbox.parentNode.querySelector('.observacao')
-
+            
             if ($span) {
-                $span.textContent = observacao
+                $span.style.display = 'block' // exibir linha da observacao                
             }
+            
         }
 
     });

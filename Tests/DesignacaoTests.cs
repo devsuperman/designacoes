@@ -44,5 +44,70 @@ namespace Tests
 
             Assert.False(designacao.SemanaAtual(hoje));
         }
+
+        [Fact]        
+        public void AoCriarNovaDesignacaoDeveEstarAguardandoAprovacao()
+        {
+            var designacao = new Designacao();        
+            Assert.Equal(SituacoesDaDesignacao.AguardandoAprovacao, designacao.Situacao);
+        }
+
+
+        [Fact]
+        public void SeASituacaoEstiverVaziaIrParaAguardandoEnvio()
+        {
+            var designacao = new Designacao();
+            designacao.Situacao = "";
+            designacao.Avancar();
+
+            Assert.Equal(SituacoesDaDesignacao.AguardandoEnvio, designacao.Situacao);
+        }
+
+        [Fact]        
+        public void AoAvancarDeveIrDeAguardandoAprovacaoParaAguardandoEnvio()
+        {
+            var designacao = new Designacao();        
+            designacao.Avancar();
+
+            Assert.Equal(SituacoesDaDesignacao.AguardandoEnvio, designacao.Situacao);
+        }
+
+        [Fact]        
+        public void AoAvancarDeveIrDeAguardandoEnvioParaEnviada()
+        {
+            var designacao = new Designacao();        
+            designacao.Avancar();
+            designacao.Avancar();
+
+            Assert.Equal(SituacoesDaDesignacao.Enviada, designacao.Situacao);
+        }
+
+        [Fact]        
+        public void AoAvancarDeveIrDeEnviadaParaConfirmada()
+        {
+            var designacao = new Designacao();        
+            designacao.Avancar();
+            designacao.Avancar();
+            designacao.Avancar();
+
+            Assert.Equal(SituacoesDaDesignacao.Confirmada, designacao.Situacao);
+        }
+
+        [Fact]        
+        public void SeJaEstiverConfirmadaEAvancarNadaMuda()
+        {
+            var designacao = new Designacao();        
+            designacao.Avancar();
+            designacao.Avancar();
+            designacao.Avancar();
+            designacao.Avancar();
+            designacao.Avancar();
+            designacao.Avancar();
+            designacao.Avancar();
+
+            Assert.Equal(SituacoesDaDesignacao.Confirmada, designacao.Situacao);
+        }
+
+        
     }
 }

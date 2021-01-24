@@ -34,7 +34,7 @@
                         @foreach (var designacao in grupo)
                         {
                         <a class='list-group-item list-group-item-action' asp-action='Details' asp-route-id='@designacao.Id'>
-                            <strong> @designacao.Tipo @designacao.Observacao  </strong> <br>
+                            <strong> @designacao.Tipo @designacao.Observacao  - @designacao.Situacao </strong> <br>
                             <span class='text-muted'> @designacao.Designado @(!string.IsNullOrEmpty(designacao.Ajudante) ? "e" : "") @designacao.Ajudante</span> 
                         </a>
                         }

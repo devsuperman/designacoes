@@ -36,6 +36,7 @@ namespace App.Controllers
                     Ajudante = a.Ajudante.Nome,
                     Tipo = a.Tipo,
                     Observacao = a.Observacao,
+                    Situacao = a.Situacao,
                     SemanaAtual = a.SemanaAtual(hoje)
                 })
                 .ToListAsync();
@@ -43,7 +44,7 @@ namespace App.Controllers
             var listaAgrupada = lista
                 .GroupBy(a => a.Data)
                 .OrderByDescending(a => a.Key)
-                .ToList();                
+                .ToList();
 
             return View(listaAgrupada);
         }
@@ -123,38 +124,33 @@ namespace App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tipo,DesignadoId,AjudanteId,Observacao,Data")] Designacao designacao)
+        public async Task<IActionResult> Edit(Designacao model)
         {
-            if (id != designacao.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(designacao);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DesignacaoExists(designacao.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var designacao = await _context.Designacoes.FindAsync(model.Id);
+                designacao.Atualizar(model.Data, model.DesignadoId, model.AjudanteId, model.Tipo, model.Observacao);
+                _context.Update(designacao);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
-            ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);
+
+            ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", model.AjudanteId);
+            ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", model.DesignadoId);
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
 
-            return View(designacao);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Avancar(int id)
+        {
+            var designacao = await _context.Designacoes.FindAsync(id);
+            designacao.Avancar();
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         // GET: Designacoes/Delete/5

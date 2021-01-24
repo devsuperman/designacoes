@@ -28,6 +28,7 @@ namespace App.Models
         public DateTime Data { get; set; }
 
         public DateTime DataDeRegistro { get; set; } = DateTime.Now;        
+        public string Situacao { get; set; } = SituacoesDaDesignacao.AguardandoAprovacao;
 
         public bool SemanaAtual(DateTime hoje)
         {
@@ -35,6 +36,36 @@ namespace App.Models
             var domingoDessaSemana = this.Data.AddDays(3);
             
             return (hoje >= segundaDessaSemana && hoje <= domingoDessaSemana);  
-        } 
+        }
+
+        internal void Atualizar(DateTime data, int designadoId, int? ajudanteId, string tipo, string observacao)
+        {
+            this.Data = data;
+            this.DesignadoId = designadoId;
+            this.AjudanteId = ajudanteId;
+            this.Tipo = tipo;
+            this.Observacao = observacao;
+        }
+
+        public void Avancar()
+        {
+            var situacoes = SituacoesDaDesignacao.Situacoes;
+            var indiceSituacaoAtual = 0;
+
+            for (int i = 0; i < situacoes.Length; i++)
+            {
+                if (this.Situacao == situacoes[i])
+                {
+                    indiceSituacaoAtual = i;
+                    break;
+                }
+            }
+
+            var proximoIndice = indiceSituacaoAtual + 1;
+
+            if (proximoIndice < situacoes.Length)
+                this.Situacao = situacoes[proximoIndice];                           
+        }
     }
+    
 }

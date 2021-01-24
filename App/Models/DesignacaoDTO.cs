@@ -16,6 +16,7 @@ namespace App.Models
 
         public DateTime Data { get; set; }
         public bool SemanaAtual { get; set; }
+        public string Situacao { get; set; }
 
     }
 }

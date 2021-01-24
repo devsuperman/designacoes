@@ -12,11 +12,22 @@ namespace App.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index() => View();
+        public async Task<IActionResult> Index()
+        {
+#if DEBUG
+            await Logar();
+            return RedirectToAction("Index", "Designacoes");
+#endif
+
+            return View();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Index(string senha)
         {
+
+
             if (senha == "8318")
             {
                 await Logar();

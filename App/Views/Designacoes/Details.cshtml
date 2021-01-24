@@ -5,7 +5,23 @@
 }
 
 <input type='hidden' asp-for='Tipo'>
-<input type='hidden' asp-for='Observacao'>
+
+<div class='card'>
+    <div class='card-body'>
+
+        <form asp-action='Avancar'>
+            <input type='hidden' asp-for='Id'>
+            <p>
+                <strong>@Model.Situacao</strong> <br>
+                Situação
+            </p>
+
+            <button type="submit" class='btn btn-primary'>
+                Avançar
+            </button>
+        </form>
+    </div>
+</div>
 
 <div id='printDesignacao'></div>
 
@@ -64,7 +80,7 @@
                             <div class='d-flex'>
                                 <span></span>
                                 <span class='linha-pontilhada flex-grow-1 observacao'>
-                                    
+                                    @Model.Observacao                                    
                                 </span>
                             </div>
 
@@ -73,13 +89,13 @@
                         <div class="form-check">
                             <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Revisita'>
                             <label class="form-check-label" for=''>
-                                Primeira Revisita
+                                Revisita
                             </label>
 
                             <div class='d-flex'>
                                 <span></span>
                                 <span class='linha-pontilhada flex-grow-1 observacao'>
-                                    
+                                    @Model.Observacao
                                 </span>
                             </div>
 
@@ -87,21 +103,6 @@
                     </div>
 
                 <div class='col'>
-
-                    <div class="form-check">
-                        <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Segunda Revisita'>
-                        <label class="form-check-label" for=''>
-                            Segunda Revisita
-                        </label>
-
-                        <div class='d-flex'>
-                            <span></span>
-                            <span class='linha-pontilhada flex-grow-1 '>
-                                
-                            </span>
-                        </div>
-
-                    </div>
 
                     <div class="form-check">
                         <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Estudo Bíblico'>
@@ -115,17 +116,7 @@
                         <label class="form-check-label" for=''>
                             Discurso
                         </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Outra'>
-                        <div class='d-flex'>
-                            <span>Outra:</span>
-                            <span class='linha-pontilhada flex-grow-1'>
-                                
-                            </span>
-                        </div>
-                    </div>
+                    </div>                    
 
                 </div>
             </div> 
