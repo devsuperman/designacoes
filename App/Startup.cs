@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using App.Extensions;
 using App.Data;
 
 namespace App
@@ -42,6 +43,8 @@ namespace App
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UsarCulturaBrasileira();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
