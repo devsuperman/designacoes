@@ -19,7 +19,7 @@ namespace App.Controllers
             _context = context;
         }
 
-        // GET: Publicadores
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var lista = await _context.Publicadores                
@@ -37,7 +37,7 @@ namespace App.Controllers
             return View(lista);
         }
 
-        // GET: Publicadores/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

@@ -26,7 +26,7 @@ namespace App
             services.AddDbContext<Contexto>(a =>
                 a.UseMySql(cnn, ServerVersion.AutoDetect(cnn)));
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o => { o.LoginPath = "/Home/Index"; });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o => { o.LoginPath = "/Home/Login"; });
             services.AddAuthorization();
 
             services.AddControllersWithViews();
