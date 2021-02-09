@@ -171,6 +171,18 @@ namespace Tests
             Assert.False(designacao.EhSubstituicao);
         }
 
+        [Fact]
+        public void AposSubstituirAdesignacaoPaiDeveReceberASituacaoCancelada()
+        {
+            var designacao = new Designacao();
+            var substituicao = new Designacao();
+            var motivo = "O designado ficou doente";
+
+            designacao.Substituir(substituicao, motivo);
+
+            Assert.Equal(designacao.Situacao, SituacoesDaDesignacao.Cancelada);
+        }
+
 
     }
 }

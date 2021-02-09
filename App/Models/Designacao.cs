@@ -70,7 +70,7 @@ namespace App.Models
 
         public void Avancar()
         {
-            var situacoes = SituacoesDaDesignacao.Situacoes;
+            var situacoes = SituacoesDaDesignacao.SituacoesDeFluxoNormal;
             var indiceSituacaoAtual = 0;
 
             for (int i = 0; i < situacoes.Length; i++)
@@ -90,6 +90,7 @@ namespace App.Models
 
         public void Substituir(Designacao substituicao, string motivo)
         {
+            this.Situacao = SituacoesDaDesignacao.Cancelada;
             this.MotivoDaSubstituicao = motivo;            
             substituicao.MarcarComoSubstituicao();
             substituicao.Id = 0; //XGH in veins!
