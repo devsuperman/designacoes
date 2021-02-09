@@ -28,6 +28,7 @@ namespace App.Controllers
             var hoje = DateTime.Now;
 
             var lista = await _context.Designacoes
+                .Include(a => a.Substituicao)
                 .Select(a => new DesignacaoDTO
                 {
                     Id = a.Id,
@@ -37,7 +38,9 @@ namespace App.Controllers
                     Tipo = a.Tipo,
                     Observacao = a.Observacao,
                     Situacao = a.Situacao,
-                    SemanaAtual = a.SemanaAtual(hoje)
+                    SemanaAtual = a.SemanaAtual(hoje),
+                    FoiSubstituida = a.FoiSubstituida,
+                    EhSubstituicao = a.EhSubstituicao
                 })
                 .ToListAsync();
 
@@ -99,7 +102,6 @@ namespace App.Controllers
             return View(designacao);
         }
 
-        // GET: Designacoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -119,9 +121,7 @@ namespace App.Controllers
             return View(designacao);
         }
 
-        // POST: Designacoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Designacao model)
@@ -144,12 +144,56 @@ namespace App.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Substituir(int id)
+        {
+            var designacao = await _context.Designacoes
+                .FindAsync(id);
+
+            var substituicao = new Designacao(designacao);
+
+            if (designacao == null)
+                return NotFound();
+
+            ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
+            ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            ViewData["DesignacaoPaiId"] = id;
+
+            return View(substituicao);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Substituir(int DesignacaoPaiId, string motivo, Designacao substituicaoModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var designacao = await _context.Designacoes.FindAsync(DesignacaoPaiId);
+
+                designacao.Substituir(substituicaoModel, motivo);
+
+                _context.Update(designacao);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Details), new { id = designacao.Substituicao.Id });
+            }
+
+            ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", substituicaoModel.AjudanteId);
+            ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", substituicaoModel.DesignadoId);
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            ViewData["DesignacaoId"] = DesignacaoPaiId;
+
+            return View(substituicaoModel);
+        }
+
         public async Task<IActionResult> Avancar(int id)
         {
             var designacao = await _context.Designacoes.FindAsync(id);
             designacao.Avancar();
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Details), new { id = id });
         }
 
@@ -173,7 +217,6 @@ namespace App.Controllers
             return View(designacao);
         }
 
-        // POST: Designacoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -1,7 +1,7 @@
 ﻿@model App.Models.Designacao
 
 @{
-    ViewData["Title"] = "Nova Designação";
+    ViewData["Title"] = "Substituir Designação";
 }
 
 <h1>
@@ -9,12 +9,17 @@
 </h1>
 
 <hr />
-<div asp-validation-summary='All' class='text-danger'></div>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-
+        <form asp-action="Substituir">
+            @Html.Hidden("DesignacaoPaiId")
+            
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="Motivo" class="control-label">Motivo da Substituição</label>
+                <textarea id="Motivo" name="Motivo" class="form-control" required></textarea>                
+            </div>
 
             <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
@@ -35,20 +40,21 @@
                 </select>
             </div>
 
-            <div class='form-group'>
+         <div class='form-group'>
                 <strong>Tipo de Parte</strong>
 
                 @foreach (var tipo in (string[])ViewData["Tipos"])
                 {
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" asp-for='Tipo' value="@tipo" id='check(@tipo)'>
-                        <label class="form-check-label" for="check(@tipo)">
+                        <input class="form-check-input" type="radio" asp-for='Tipo' value="@tipo">
+                        <label class="form-check-label" for="TipoLeitura">
                             @tipo
                         </label>
                     </div>                    
                 }                                 
 
             </div>
+
 
             <div class="form-group">
                 <label asp-for="Observacao" class="control-label"></label>
@@ -57,14 +63,14 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="✅ Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">↩ Voltar</a>
 </div>
 
 @section Scripts {

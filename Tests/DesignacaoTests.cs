@@ -17,10 +17,10 @@ namespace Tests
         public void DeveRetornarVerdadeiroSeHojeForDaMesmaSemanaDaDesignacao(string dataString)
         {
             var hoje = Convert.ToDateTime(dataString);
-            
+
             var designacao = new Designacao
             {
-                Data = new DateTime(2021,01,14)
+                Data = new DateTime(2021, 01, 14)
             };
 
             Assert.True(designacao.SemanaAtual(hoje));
@@ -45,10 +45,10 @@ namespace Tests
             Assert.False(designacao.SemanaAtual(hoje));
         }
 
-        [Fact]        
+        [Fact]
         public void AoCriarNovaDesignacaoDeveEstarAguardandoAprovacao()
         {
-            var designacao = new Designacao();        
+            var designacao = new Designacao();
             Assert.Equal(SituacoesDaDesignacao.AguardandoAprovacao, designacao.Situacao);
         }
 
@@ -63,29 +63,29 @@ namespace Tests
             Assert.Equal(SituacoesDaDesignacao.AguardandoEnvio, designacao.Situacao);
         }
 
-        [Fact]        
+        [Fact]
         public void AoAvancarDeveIrDeAguardandoAprovacaoParaAguardandoEnvio()
         {
-            var designacao = new Designacao();        
+            var designacao = new Designacao();
             designacao.Avancar();
 
             Assert.Equal(SituacoesDaDesignacao.AguardandoEnvio, designacao.Situacao);
         }
 
-        [Fact]        
+        [Fact]
         public void AoAvancarDeveIrDeAguardandoEnvioParaEnviada()
         {
-            var designacao = new Designacao();        
+            var designacao = new Designacao();
             designacao.Avancar();
             designacao.Avancar();
 
             Assert.Equal(SituacoesDaDesignacao.Enviada, designacao.Situacao);
         }
 
-        [Fact]        
+        [Fact]
         public void AoAvancarDeveIrDeEnviadaParaConfirmada()
         {
-            var designacao = new Designacao();        
+            var designacao = new Designacao();
             designacao.Avancar();
             designacao.Avancar();
             designacao.Avancar();
@@ -93,10 +93,10 @@ namespace Tests
             Assert.Equal(SituacoesDaDesignacao.Confirmada, designacao.Situacao);
         }
 
-        [Fact]        
+        [Fact]
         public void SeJaEstiverConfirmadaEAvancarNadaMuda()
         {
-            var designacao = new Designacao();        
+            var designacao = new Designacao();
             designacao.Avancar();
             designacao.Avancar();
             designacao.Avancar();
@@ -106,8 +106,71 @@ namespace Tests
             designacao.Avancar();
 
             Assert.Equal(SituacoesDaDesignacao.Confirmada, designacao.Situacao);
+        }
+
+        [Fact]
+        public void QuandoSubstituirDeveRegistrarOMotivoDaSubstituicao()
+        {
+            var designacao = new Designacao();
+            var substituicao = new Designacao();
+            var motivo = "O designado ficou doente";
+
+            designacao.Substituir(substituicao, motivo);
+
+            Assert.Equal(designacao.MotivoDaSubstituicao, motivo);
+        }
+
+        [Fact]
+        public void QuandoSubstituirDeveRegistrarASubstituicao()
+        {
+            var designacao = new Designacao();
+            var substituicao = new Designacao();
+            var motivo = "O designado ficou doente";
+
+            designacao.Substituir(substituicao, motivo);
+
+            Assert.Equal(designacao.Substituicao, substituicao);
+        }
+
+        [Fact]
+        public void QuandoSubstituirDeveRetornarVerdadeiro()
+        {
+            var designacao = new Designacao();
+            var substituicao = new Designacao();
+            var motivo = "O designado ficou doente";
+
+            designacao.Substituir(substituicao, motivo);
+
+            Assert.True(designacao.FoiSubstituida);
         }
 
         
+        [Fact]
+        public void QuandoNaoForSubstituidaDeveRetornarFalso()
+        {
+            var designacao = new Designacao();
+            Assert.False(designacao.FoiSubstituida);
+        }
+
+        [Fact]
+        public void QuandoEhUmaSubstituicaoDeveRetornarVerdadeiro()
+        {
+            var designacao = new Designacao();
+            var substituicao = new Designacao();
+            var motivo = "O designado ficou doente";
+
+            designacao.Substituir(substituicao, motivo);
+
+            Assert.True(substituicao.EhSubstituicao);
+        }
+
+         [Fact]
+        public void QuandoNaoEhUmaSubstituicaoDeveRetornarFalso()
+        {
+            var designacao = new Designacao();
+            Assert.False(designacao.EhSubstituicao);
+        }
+
+
     }
 }

@@ -13,6 +13,8 @@ namespace App.Models
         public string Ajudante { get; set; }
         
         public string Observacao { get; set; }
+        public bool FoiSubstituida { get; set; }
+        public bool EhSubstituicao { get; set; }
 
         public DateTime Data { get; set; }
         public bool SemanaAtual { get; set; }

@@ -4,179 +4,186 @@
     ViewData["Title"] = "Details";
 }
 
+<h1>
+    📃 Designação @Model.Situacao
+</h1>
 <input type='hidden' asp-for='Tipo'>
 
 <div class='card'>
-    <div class='card-body'>
+    <div class='card-body'>        
 
-        <form asp-action='Avancar'>
-            <input type='hidden' asp-for='Id'>
-            <p>
-                <strong>@Model.Situacao</strong> <br>
-                Situação
-            </p>
-
-            <button type="submit" class='btn btn-primary'>
-                Avançar
-            </button>
-        </form>
-    </div>
-</div>
-
-<div id='printDesignacao'></div>
-
-    <div class='card card-designacao' id='divDesignacao'>
-
-        <div class='card-body'>
-
-            <h1 class='titulo-designacao'>            
-                DESIGNAÇÃO PARA A REUNIÃO <br>
-                NOSSA VIDA E MINISTÉRIO CRISTÃO
-            </h1>
+        <div class='d-flex justify-content-between'>
+        
+            <a asp-action="Index" class='btn btn-light'>↩ Voltar</a>
 
 
-            <p class="d-flex">
-                <strong class='mr-2'>Nome: </strong>
-                <span class='linha-pontilhada flex-grow-1'>
-                    @Model.Designado.Nome
-                </span>
-            </p>
+            <a asp-action='Substituir' asp-route-id='@Model.Id' class='btn btn-light'>                                 
+                    🔃 Substituir
+            </a> 
 
-            <p class='d-flex'>
-                <strong class='mr-2'>Ajudante: </strong>
-                <span class='linha-pontilhada flex-grow-1'>
-                    @Model.Ajudante?.Nome
-                </span>
-            </p>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class='btn btn-light'>📝 Editar </a>
+            
+            <form asp-action='Avancar'>
+                
+                <button type="submit" class='btn btn-light'>
+                    ⏩ Avançar
+                </button>
 
-            <p class='d-flex'>
-                <strong class='mr-2'>Data: </strong>
-                <span class='linha-pontilhada flex-grow-1'>
-                    @Model.Data.ToShortDateString()
-                </span>
-            </p>
+                <input type='hidden' asp-for='Id'>           
 
-            <br>
-                <strong>
-                    Designação:
-                </strong>
+            </form>
+        </div>
+  
 
-            <div class='row'>
-                <div class='col ml-4'>
+        <div id='printDesignacao' class='text-center'></div>
 
+            <div class='card card-designacao' id='divDesignacao'>
+
+                <div class='card-body'>
+
+                    <h1 class='titulo-designacao'>            
+                        DESIGNAÇÃO PARA A REUNIÃO <br>
+                        NOSSA VIDA E MINISTÉRIO CRISTÃO
+                    </h1>
+
+
+                    <p class="d-flex">
+                        <strong class='mr-2'>Nome: </strong>
+                        <span class='linha-pontilhada flex-grow-1'>
+                            @Model.Designado.Nome
+                        </span>
+                    </p>
+
+                    <p class='d-flex'>
+                        <strong class='mr-2'>Ajudante: </strong>
+                        <span class='linha-pontilhada flex-grow-1'>
+                            @Model.Ajudante?.Nome
+                        </span>
+                    </p>
+
+                    <p class='d-flex'>
+                        <strong class='mr-2'>Data: </strong>
+                        <span class='linha-pontilhada flex-grow-1'>
+                            @Model.Data.ToShortDateString()
+                        </span>
+                    </p>
+
+                    <br>
+                        <strong>
+                            Designação:
+                        </strong>
+
+                    <div class='row'>
+                        <div class='col ml-4'>
+
+                                <div class="form-check">
+                                    <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Leitura'>
+                                    <label class="form-check-label" for=''>
+                                        Leitura da Bíblia
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Primeira Conversa'>
+                                    <label class="form-check-label" for=''>
+                                        Primeira Conversa
+                                    </label>
+                                    
+                                    <div class='d-flex'>
+                                        <span></span>
+                                        <span class='linha-pontilhada flex-grow-1 observacao'>
+                                            @Model.Observacao                                    
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Revisita'>
+                                    <label class="form-check-label" for=''>
+                                        Revisita
+                                    </label>
+
+                                    <div class='d-flex'>
+                                        <span></span>
+                                        <span class='linha-pontilhada flex-grow-1 observacao'>
+                                            @Model.Observacao
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        <div class='col'>
+
+                            <div class="form-check">
+                                <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Estudo Bíblico'>
+                                <label class="form-check-label" for=''>
+                                    Estudo Bíblico
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Discurso'>
+                                <label class="form-check-label" for=''>
+                                    Discurso
+                                </label>
+                            </div>                    
+
+                        </div>
+                    </div> 
+
+                    <br>
+                    <strong>
+                        A ser feito(a) no(a):
+                    </strong>
+
+                    <div class='ml-4'>
                         <div class="form-check">
-                            <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Leitura'>
-                            <label class="form-check-label" for=''>
-                                Leitura da Bíblia
+                            <input class="form-check-input" type='checkbox' checked>
+                            <label class="form-check-label">
+                                Salão Principal
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Primeira Conversa'>
-                            <label class="form-check-label" for=''>
-                                Primeira Conversa
+                            <input class="form-check-input" type='checkbox'>
+                            <label class="form-check-label">
+                                Sala B
                             </label>
-                            
-                            <div class='d-flex'>
-                                <span></span>
-                                <span class='linha-pontilhada flex-grow-1 observacao'>
-                                    @Model.Observacao                                    
-                                </span>
-                            </div>
-
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Revisita'>
-                            <label class="form-check-label" for=''>
-                                Revisita
+                            <input class="form-check-input" type='checkbox'>
+                            <label class="form-check-label">
+                                Sala C
                             </label>
-
-                            <div class='d-flex'>
-                                <span></span>
-                                <span class='linha-pontilhada flex-grow-1 observacao'>
-                                    @Model.Observacao
-                                </span>
-                            </div>
-
                         </div>
                     </div>
 
-                <div class='col'>
+                    <br>
 
-                    <div class="form-check">
-                        <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Estudo Bíblico'>
-                        <label class="form-check-label" for=''>
-                            Estudo Bíblico
-                        </label>
-                    </div>
+                    <p>
+                        <strong>Observação para o estudante: </strong> 
+                        A lição da brochura <i>Melhore</i> e a fonte de matéria para a sua designação estão na 
+                        <i>Apostila da Reunião Vida e Ministério</i>. 
+                        Estude a lição da brochura para saber como aplicar o ponto que você vai considerar.
+                    <p/>
+                    <p>
+                        S-89-T 10/19
+                    </p>
 
-                    <div class="form-check">
-                        <input class="form-check-input check-tipo" name='Tipo' type='checkbox' value='Discurso'>
-                        <label class="form-check-label" for=''>
-                            Discurso
-                        </label>
-                    </div>                    
+
 
                 </div>
-            </div> 
 
-            <br>
-            <strong>
-                A ser feito(a) no(a):
-            </strong>
-
-            <div class='ml-4'>
-                <div class="form-check">
-                    <input class="form-check-input" type='checkbox' checked>
-                    <label class="form-check-label">
-                        Salão Principal
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type='checkbox'>
-                    <label class="form-check-label">
-                        Sala B
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type='checkbox'>
-                    <label class="form-check-label">
-                        Sala C
-                    </label>
+                
                 </div>
             </div>
-
-            <br>
-
-            <p>
-                <strong>Observação para o estudante: </strong> 
-                A lição da brochura <i>Melhore</i> e a fonte de matéria para a sua designação estão na 
-                <i>Apostila da Reunião Vida e Ministério</i>. 
-                Estude a lição da brochura para saber como aplicar o ponto que você vai considerar.
-            <p/>
-            <p>
-                S-89-T 10/19
-            </p>
-
-
-
         </div>
-
-        
-
-    </div>
-
-
-
-<br>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>
+</div>
+
 
 @section scripts{
     <script src='~/js/html2canvas.js'></script>
