@@ -29,7 +29,7 @@ namespace App.Controllers
 
             var lista = await _context.Designacoes
                 .Include(a => a.Substituicao)
-                .Where(w => !w.FoiSubstituida)
+                .Where(w => w.Substituicao == null)
                 .Select(a => new DesignacaoDTO
                 {
                     Id = a.Id,
