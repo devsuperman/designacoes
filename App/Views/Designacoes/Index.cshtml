@@ -1,7 +1,7 @@
 ﻿@model List<IGrouping<DateTime, App.Models.DesignacaoDTO>>
 
 @{
-    ViewData["Title"] = "Designações";    
+    ViewData["Title"] = "Designações";
 }
 
 <h1>
@@ -18,30 +18,50 @@
 
         <div class="card">
 
-            <div class="card-header" id="headingOne">
+            <div class="card-header d-flex" id="headingOne">
+
+
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@reff.Id"
                         aria-expanded="true" aria-controls="collapse-@reff.Id">
                         @grupo.Key.ToShortDateString()
                     </button>
                 </h2>
+
+                <button class='ml-auto btn btn-success' type="button" onclick="CopiarDesignacao(this)">
+                    Copiar
+                </button>
+
+
+                <textarea class='esconder'>
+
+                    *@grupo.Key.ToShortDateString()* - Designações dos estudantes                    
+                    @foreach (var designacao in grupo)                    
+                    {
+                        @: *@designacao.Tipo* - @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
+                    }
+                    
+                </textarea>
             </div>
 
-            <div id="collapse-@reff.Id" class="collapse @(reff.SemanaAtual ? "show" : "")" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapse-@reff.Id" class="collapse @(reff.SemanaAtual ? "show" : "")" aria-labelledby="headingOne"
+                data-parent="#accordionExample">
                 <div class="card-body">
 
                     <div class='list-group list-group-flush '>
                         @foreach (var designacao in grupo)
                         {
-                            <a class='list-group-item list-group-item-action' asp-action='Details' asp-route-id='@designacao.Id'>
-                                
-                                <strong> 
-                                    @designacao.Tipo - @designacao.Situacao 
-                                    <span class='text-danger'>@(designacao.EhSubstituicao ? "[Substituição]":"")</span>                                    
+                            <a class='list-group-item list-group-item-action' asp-action='Details'
+                                asp-route-id='@designacao.Id'>
+
+                                <strong>
+                                    @designacao.Tipo - @designacao.Situacao
+                                    <span class='text-danger'>@(designacao.EhSubstituicao ? "[Substituição]":"")</span>
                                 </strong>
                                 <br>
 
-                                <span class='text-muted'> @designacao.Designado @(!string.IsNullOrEmpty(designacao.Ajudante) ? "e" : "") @designacao.Ajudante</span> 
+                                <span class='text-muted'> @designacao.Designado @(!string.IsNullOrEmpty(designacao.Ajudante) ?
+                            "e" : "") @designacao.Ajudante</span>
                             </a>
                         }
                     </div>
