@@ -30,19 +30,16 @@
 
                 <button class='ml-auto btn btn-success' type="button" onclick="CopiarDesignacao(this)">
                     Copiar
-                </button>
-
+                </button>               
 
                 <textarea class='esconder'>
-
-                    *@grupo.Key.ToShortDateString()* - Designações dos estudantes                    
+*@grupo.Key.ToShortDateString()* - Designações dos estudantes                   
                     @foreach (var designacao in grupo)                    
                     {
-                        @: *@designacao.Tipo* - @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
-                    }
-                    
+@:*@designacao.Tipo* - @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
+                    }                    
                 </textarea>
-            </div>
+            </div>         
 
             <div id="collapse-@reff.Id" class="collapse @(reff.SemanaAtual ? "show" : "")" aria-labelledby="headingOne"
                 data-parent="#accordionExample">

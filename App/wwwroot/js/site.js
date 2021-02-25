@@ -18,5 +18,5 @@ function CopiarDesignacao(botao) {
     $designacao.select()
     $designacao.setSelectionRange(0, 99999) /* For mobile devices */
 
-    document.execCommand("copy")    
+    document.execCommand("copy", false, $designacao.value.trim())    
 }
