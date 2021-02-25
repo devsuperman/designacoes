@@ -24,7 +24,7 @@
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@reff.Id"
                         aria-expanded="true" aria-controls="collapse-@reff.Id">
-                        @grupo.Key.ToShortDateString()
+                        @grupo.Key.ToString("dd/MM")
                     </button>
                 </h2>
 
@@ -33,7 +33,7 @@
                 </button>               
 
                 <textarea class='esconder'>
-*@grupo.Key.ToShortDateString()* - Designações dos estudantes                   
+*@grupo.Key.ToString("dd/MM") - Designações dos estudantes*                   
                     @foreach (var designacao in grupo)                    
                     {
 @:*@designacao.Tipo* - @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
