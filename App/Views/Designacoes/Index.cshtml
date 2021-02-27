@@ -36,7 +36,7 @@
 *@grupo.Key.ToString("dd/MM") - Designações dos estudantes*                   
                     @foreach (var designacao in grupo)                    
                     {
-@:*@designacao.Tipo* - @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
+@:*@designacao.Tipo @designacao.Observacao -* @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
                     }                    
                 </textarea>
             </div>         
@@ -52,7 +52,7 @@
                                 asp-route-id='@designacao.Id'>
 
                                 <strong>
-                                    @designacao.Tipo - @designacao.Situacao
+                                    @designacao.Tipo - @designacao.Observacao [@designacao.Situacao]
                                     <span class='text-danger'>@(designacao.EhSubstituicao ? "[Substituição]":"")</span>
                                 </strong>
                                 <br>
