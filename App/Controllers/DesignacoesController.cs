@@ -80,7 +80,14 @@ namespace App.Controllers
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome");
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
 
-            return View();
+            var ultimaDataDeDesignacao = _context.Designacoes.Max(a => a.Data);
+
+            var model = new Designacao()
+            {
+                Data = ultimaDataDeDesignacao
+            };
+
+            return View(model);
         }
 
         // POST: Designacoes/Create
@@ -94,7 +101,7 @@ namespace App.Controllers
             {
                 _context.Add(designacao);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Create));
+                return RedirectToAction(nameof(Create), new { data = designacao.Data });
             }
             ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.AjudanteId);
             ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome", designacao.DesignadoId);

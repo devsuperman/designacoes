@@ -28,14 +28,16 @@ namespace App.Models
         [InverseProperty("Designacoes")]
         public Publicador Designado { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Designado")]
         public int DesignadoId { get; set; }
 
         [InverseProperty("DesignacoesComoAjudante")]
         public Publicador Ajudante { get; set; }
 
+        [Display(Name = "Ajudante")]
         public int? AjudanteId { get; set; }
 
+        [Display(Name = "Observação")]
         public string Observacao { get; set; }
 
         [Required, DataType(DataType.Date)]
