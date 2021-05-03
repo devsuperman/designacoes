@@ -74,10 +74,11 @@ namespace App.Controllers
         }
 
         // GET: Designacoes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["AjudanteId"] = new SelectList(_context.Publicadores, "Id", "Nome");
-            ViewData["DesignadoId"] = new SelectList(_context.Publicadores, "Id", "Nome");
+            var publicadoresDisponiveis = await _context.Publicadores.Where(w => !w.ImpedidoDeFazerPartes).ToListAsync();
+            ViewData["AjudanteId"] = new SelectList(publicadoresDisponiveis, "Id", "Nome");
+            ViewData["DesignadoId"] = new SelectList(publicadoresDisponiveis, "Id", "Nome");
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
 
             var ultimaDataDeDesignacao = _context.Designacoes.Max(a => a.Data);
@@ -238,6 +239,32 @@ namespace App.Controllers
         private bool DesignacaoExists(int id)
         {
             return _context.Designacoes.Any(e => e.Id == id);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Substituicoes()
+        {
+
+            var substituicoes = await _context.Designacoes
+                .Include(a => a.Substituicao)
+                .Where(w => w.Substituicao != null)
+                .Select(a => new DesignacaoDTO
+                {
+                    Id = a.Id,
+                    Data = a.Data,
+                    Designado = a.Designado.Nome,
+                    Ajudante = a.Ajudante.Nome,
+                    Tipo = a.Tipo,
+                    Observacao = a.Observacao,
+                    Situacao = a.Situacao,
+                    FoiSubstituida = a.FoiSubstituida,
+                    EhSubstituicao = a.EhSubstituicao,
+                    MotivoDaSubstituicao = a.MotivoDaSubstituicao
+                })
+                .OrderByDescending(a => a.Data)
+                .ToListAsync();
+
+            return View(substituicoes);
         }
     }
 }

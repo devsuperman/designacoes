@@ -1,30 +1,54 @@
 ﻿@model App.Models.Publicador
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Publicador";
 }
 
-<h1>Details</h1>
+<h1>
+    😁 @ViewData["Title"]
+</h1>
+
+<hr />
 
 <div>
-    <h4>Publicador</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Nome)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-8">
             @Html.DisplayFor(model => model.Nome)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Sexo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-8">
             @Html.DisplayFor(model => model.Sexo)
-        </dd>
+        </dd>        
+        <dt class = "col-sm-4">
+            Impedido de fazer partes
+        </dt>
+        <dd class = "col-sm-8">
+            @(Model.ImpedidoDeFazerPartes ? "Sim" : "Não")
+        </dd>        
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <form asp-action='Ativar'>
+        <input type='hidden' asp-for='Id'>
+
+        @if (Model.ImpedidoDeFazerPartes)
+        {
+            <button type="submit" class="btn btn-success" name='impedir' value='false'>
+                Liberar participação do irmão
+            </button>            
+        }
+        else
+        {
+            <button type="submit" class="btn btn-danger" name='impedir' value='true'>
+                Impedir de fazer partes
+            </button>
+        }
+        <a class='btn btn-link' asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+        <a class='btn btn-link' asp-action="Index">Voltar</a>
+    </form>
 </div>

@@ -19,25 +19,42 @@ namespace App.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var lista = await _context.Publicadores                
+            var lista = await _context.Publicadores
+                .Where(w => !w.ImpedidoDeFazerPartes)
                 .Select(a => new PublicadorDTO
                 {
                     Id = a.Id,
                     Nome = a.Nome,
                     Sexo = a.Sexo,
                     DataDaUltimaDesignacao = a.Designacoes.OrderByDescending(o => o.Data).FirstOrDefault().Data,
-                    DataDaUltimaDesignacaoComoAjudante = a.DesignacoesComoAjudante.OrderByDescending(o => o.Data).FirstOrDefault().Data                    
+                    DataDaUltimaDesignacaoComoAjudante = a.DesignacoesComoAjudante.OrderByDescending(o => o.Data).FirstOrDefault().Data
                 })
                 .OrderBy(a => a.DataDaUltimaDesignacao)
-                .ToListAsync();  
-                
+                .ToListAsync();
+
             return View(lista);
         }
 
-        [AllowAnonymous]
+        public async Task<IActionResult> ImpedidosDeFazerParte()
+        {
+            var lista = await _context.Publicadores
+                .Where(w => w.ImpedidoDeFazerPartes)
+                .Select(a => new PublicadorDTO
+                {
+                    Id = a.Id,
+                    Nome = a.Nome,
+                    Sexo = a.Sexo,
+                    DataDaUltimaDesignacao = a.Designacoes.OrderByDescending(o => o.Data).FirstOrDefault().Data,
+                    DataDaUltimaDesignacaoComoAjudante = a.DesignacoesComoAjudante.OrderByDescending(o => o.Data).FirstOrDefault().Data
+                })
+                .OrderBy(a => a.DataDaUltimaDesignacao)
+                .ToListAsync();
+
+            return View(lista);
+        }
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -160,6 +177,17 @@ namespace App.Controllers
         private bool PublicadorExists(int id)
         {
             return _context.Publicadores.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> Ativar(int id, bool impedir)
+        {
+            var publicador = await _context.Publicadores.FindAsync(id);
+
+            publicador.ImpedidoDeFazerPartes = impedir;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id });
         }
     }
 }
