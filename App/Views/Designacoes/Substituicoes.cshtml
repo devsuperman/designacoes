@@ -8,11 +8,11 @@
     🔃 @ViewData["Title"]
 </h1>
 
-<div class='list-group list-group-flush mt-4'>
+<ul class='list-group list-group-flush mt-4'>
 
     @foreach (var designacao in Model)
     {
-        <a class='list-group-item list-group-item-action' asp-action='Details' asp-route-id='@designacao.Id'>
+        <li class='list-group-item' asp-action='Details' asp-route-id='@designacao.Id'>
 
             <strong>
                 @designacao.Data.ToShortDateString()
@@ -24,6 +24,4 @@
             <span class='text-muted'> 
                 @designacao.Designado: @designacao.MotivoDaSubstituicao 
             </span>
-        </a>
-    }
-</div>
+        </li>
