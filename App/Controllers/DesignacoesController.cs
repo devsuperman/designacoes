@@ -26,10 +26,13 @@ namespace App.Controllers
         public async Task<IActionResult> Index()
         {
             var hoje = DateTime.Now;
+            var semanaPassada = hoje.AddDays(-7);
 
             var lista = await _context.Designacoes
                 .Include(a => a.Substituicao)
-                .Where(w => w.Substituicao == null)
+                .Where(w => 
+                    w.Substituicao == null &&
+                    w.Data >= semanaPassada)
                 .Select(a => new DesignacaoDTO
                 {
                     Id = a.Id,
@@ -76,7 +79,15 @@ namespace App.Controllers
         // GET: Designacoes/Create
         public async Task<IActionResult> Create()
         {
-            var publicadoresDisponiveis = await _context.Publicadores.Where(w => !w.ImpedidoDeFazerPartes).ToListAsync();
+            var publicadoresDisponiveis = await _context.Publicadores
+            .Where(w => !w.ImpedidoDeFazerPartes)
+            .OrderBy(a => a.Designacoes.OrderByDescending(s => s.Data).FirstOrDefault().Data)
+            .Select(s => new {
+                Id = s.Id,
+                Nome = s.Nome + " " + s.Designacoes.OrderByDescending(a => a.Data).FirstOrDefault().Data.ToShortDateString()
+            })
+            .ToListAsync();
+
             ViewData["AjudanteId"] = new SelectList(publicadoresDisponiveis, "Id", "Nome");
             ViewData["DesignadoId"] = new SelectList(publicadoresDisponiveis, "Id", "Nome");
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
