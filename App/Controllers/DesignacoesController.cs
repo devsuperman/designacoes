@@ -29,9 +29,8 @@ namespace App.Controllers
             var semanaPassada = hoje.AddDays(-7);
 
             var lista = await _context.Designacoes
-                .Include(a => a.Substituicao)
                 .Where(w => 
-                    w.Substituicao == null &&
+                    !w.SubstituicaoId.HasValue &&
                     w.Data >= semanaPassada)
                 .Select(a => new DesignacaoDTO
                 {

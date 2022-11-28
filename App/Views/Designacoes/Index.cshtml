@@ -23,33 +23,33 @@
 
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@reff.Id"
-                        aria-expanded="true" aria-controls="collapse-@reff.Id">
-                        @grupo.Key.ToString("dd/MM")
+                    aria-expanded="true" aria-controls="collapse-@reff.Id">
+                        @grupo.Key.ToShortDateString()
                     </button>
                 </h2>
 
                 <button class='ml-auto btn btn-success' type="button" onclick="CopiarDesignacao(this)">
                     Copiar
-                </button>               
+                </button>
 
                 <textarea class='esconder'>
-*@grupo.Key.ToString("dd/MM") - Designações dos estudantes*                   
-                    @foreach (var designacao in grupo)                    
+    *@grupo.Key.ToShortDateString() - Designações dos estudantes*                   
+                    @foreach (var designacao in grupo)
                     {
-@:*@designacao.Tipo @designacao.Observacao -* @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
+                        @:*@designacao.Tipo @designacao.Observacao -* @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
                     }                    
-                </textarea>
-            </div>         
+                    </textarea>
+            </div>
 
             <div id="collapse-@reff.Id" class="collapse @(reff.SemanaAtual ? "show" : "")" aria-labelledby="headingOne"
-                data-parent="#accordionExample">
+            data-parent="#accordionExample">
                 <div class="card-body">
 
                     <div class='list-group list-group-flush '>
                         @foreach (var designacao in grupo)
                         {
                             <a class='list-group-item list-group-item-action' asp-action='Details'
-                                asp-route-id='@designacao.Id'>
+                        asp-route-id='@designacao.Id'>
 
                                 <strong>
                                     @designacao.Tipo - @designacao.Observacao [@designacao.Situacao]
