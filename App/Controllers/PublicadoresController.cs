@@ -21,7 +21,7 @@ namespace App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var lista = await _context.Publicadores
+            var lista = await _context.publicadores
                 .Where(w => !w.ImpedidoDeFazerPartes)
                 .Select(a => new PublicadorDTO
                 {
@@ -39,7 +39,7 @@ namespace App.Controllers
 
         public async Task<IActionResult> ImpedidosDeFazerParte()
         {
-            var lista = await _context.Publicadores
+            var lista = await _context.publicadores
                 .Where(w => w.ImpedidoDeFazerPartes)
                 .Select(a => new PublicadorDTO
                 {
@@ -62,7 +62,7 @@ namespace App.Controllers
                 return NotFound();
             }
 
-            var publicador = await _context.Publicadores
+            var publicador = await _context.publicadores
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (publicador == null)
             {
@@ -102,7 +102,7 @@ namespace App.Controllers
                 return NotFound();
             }
 
-            var publicador = await _context.Publicadores.FindAsync(id);
+            var publicador = await _context.publicadores.FindAsync(id);
             if (publicador == null)
             {
                 return NotFound();
@@ -153,7 +153,7 @@ namespace App.Controllers
                 return NotFound();
             }
 
-            var publicador = await _context.Publicadores
+            var publicador = await _context.publicadores
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (publicador == null)
             {
@@ -168,20 +168,20 @@ namespace App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var publicador = await _context.Publicadores.FindAsync(id);
-            _context.Publicadores.Remove(publicador);
+            var publicador = await _context.publicadores.FindAsync(id);
+            _context.publicadores.Remove(publicador);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PublicadorExists(int id)
         {
-            return _context.Publicadores.Any(e => e.Id == id);
+            return _context.publicadores.Any(e => e.Id == id);
         }
 
         public async Task<IActionResult> Ativar(int id, bool impedir)
         {
-            var publicador = await _context.Publicadores.FindAsync(id);
+            var publicador = await _context.publicadores.FindAsync(id);
 
             publicador.ImpedidoDeFazerPartes = impedir;
 

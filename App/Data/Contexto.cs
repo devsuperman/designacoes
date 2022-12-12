@@ -9,8 +9,8 @@ namespace App.Data
         {
             
         }   
-        public DbSet<Designacao> Designacoes {get;set;}                 
-        public DbSet<Publicador> Publicadores { get; set; }
+        public DbSet<Designacao> designacoes {get;set;}                 
+        public DbSet<Publicador> publicadores { get; set; }
     
     }
 }
