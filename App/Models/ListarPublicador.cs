@@ -6,6 +6,6 @@ namespace App.Models
         public string Nome { get; set; }
         public Designacao UltimaDesignacao { get; set; }        
         public string DataUltimaDesigacao => UltimaDesignacao != null ? UltimaDesignacao.Data.ToShortDateString(): "Nunca Designado";
-        public string NomeComData => $"{Nome} - {DataUltimaDesigacao}";
+        public string NomeComData => $"{Nome} - Última Designacao em {DataUltimaDesigacao}";
     }
 }
