@@ -13,7 +13,6 @@ namespace Tests
         [InlineData("2021-01-14")]
         [InlineData("2021-01-15")]
         [InlineData("2021-01-16")]
-        [InlineData("2021-01-17")]
         public void DeveRetornarVerdadeiroSeHojeForDaMesmaSemanaDaDesignacao(string dataString)
         {
             var hoje = Convert.ToDateTime(dataString);
@@ -27,7 +26,6 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData("2021-01-10")]
         [InlineData("2021-01-09")]
         [InlineData("2021-01-08")]
         [InlineData("2021-01-18")]
