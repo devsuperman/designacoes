@@ -28,8 +28,8 @@ namespace App.Controllers
             var hoje = DateTime.Now;
             var semanaPassada = hoje.AddDays(-7);
 
-            var lista = await _context.designacoes
-                .Where(w => 
+            var lista = await _context.Designacoes
+                .Where(w =>
                     !w.SubstituicaoId.HasValue &&
                     w.Data >= semanaPassada)
                 .Select(a => new DesignacaoDTO
@@ -40,7 +40,6 @@ namespace App.Controllers
                     Ajudante = a.Ajudante.Nome,
                     Tipo = a.Tipo,
                     Observacao = a.Observacao,
-                    Situacao = a.Situacao,
                     SemanaAtual = a.SemanaAtual(hoje),
                     FoiSubstituida = a.FoiSubstituida,
                     EhSubstituicao = a.EhSubstituicao
@@ -48,6 +47,11 @@ namespace App.Controllers
                 .ToListAsync();
 
             var listaAgrupada = lista
+                .OrderBy(o => o.Tipo.Contains("Discurso"))
+                    .ThenBy(o => o.Tipo.Contains("Estudo"))
+                    .ThenBy(o => o.Tipo.Contains("Revisita"))
+                    .ThenBy(o => o.Tipo.Contains("Primeira"))
+                    .ThenBy(o => o.Tipo.Contains("Leitura"))
                 .GroupBy(a => a.Data)
                 .OrderByDescending(a => a.Key)
                 .ToList();
@@ -63,7 +67,7 @@ namespace App.Controllers
                 return NotFound();
             }
 
-            var designacao = await _context.designacoes
+            var designacao = await _context.Designacoes
                 .Include(d => d.Ajudante)
                 .Include(d => d.Designado)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -75,23 +79,14 @@ namespace App.Controllers
             return View(designacao);
         }
 
-        // GET: Designacoes/Create
         public async Task<IActionResult> Create()
         {
-            var publicadoresDisponiveis = await _context.publicadores
-            .Where(w => !w.ImpedidoDeFazerPartes)
-            .OrderBy(a => a.Designacoes.OrderByDescending(s => s.Data).FirstOrDefault().Data)
-            .Select(s => new {
-                Id = s.Id,
-                Nome = s.Nome + " " + s.Designacoes.OrderByDescending(a => a.Data).FirstOrDefault().Data.ToShortDateString()
-            })
-            .ToListAsync();
+            await CarregarViewDatasDoFormulario();
 
-            ViewData["AjudanteId"] = new SelectList(publicadoresDisponiveis, "Id", "Nome");
-            ViewData["DesignadoId"] = new SelectList(publicadoresDisponiveis, "Id", "Nome");
-            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            var ultimaDataDeDesignacao = DateTime.Today;
 
-            var ultimaDataDeDesignacao = _context.designacoes.Max(a => a.Data);
+            if (await _context.Designacoes.AnyAsync())
+                ultimaDataDeDesignacao = await _context.Designacoes.MaxAsync(a => a.Data);
 
             var model = new Designacao()
             {
@@ -101,9 +96,6 @@ namespace App.Controllers
             return View(model);
         }
 
-        // POST: Designacoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Tipo,DesignadoId,AjudanteId,Observacao,Data,DataDeRegistro")] Designacao designacao)
@@ -112,13 +104,33 @@ namespace App.Controllers
             {
                 _context.Add(designacao);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Create), new { data = designacao.Data });
             }
-            ViewData["AjudanteId"] = new SelectList(_context.publicadores, "Id", "Nome", designacao.AjudanteId);
-            ViewData["DesignadoId"] = new SelectList(_context.publicadores, "Id", "Nome", designacao.DesignadoId);
-            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
 
+            await CarregarViewDatasDoFormulario();
             return View(designacao);
+        }
+
+        private async Task CarregarViewDatasDoFormulario()
+        {
+            var publicadoresDisponiveis = await _context.Publicadores
+                .Where(w => !w.ImpedidoDeFazerPartes)
+                .Select(s => new ListarPublicador
+                {
+                    Id = s.Id,
+                    Nome = s.Nome,
+                    UltimaDesignacao = s.Designacoes.OrderByDescending(a => a.Data).FirstOrDefault()
+                })
+                .ToListAsync();
+
+            publicadoresDisponiveis = publicadoresDisponiveis
+                .OrderBy(o => o.UltimaDesignacao?.Data)
+                .ToList();
+
+            ViewData["AjudanteId"] = new SelectList(publicadoresDisponiveis, "Id", "NomeComData");
+            ViewData["DesignadoId"] = new SelectList(publicadoresDisponiveis, "Id", "NomeComData");
+            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -128,15 +140,13 @@ namespace App.Controllers
                 return NotFound();
             }
 
-            var designacao = await _context.designacoes.FindAsync(id);
+            var designacao = await _context.Designacoes.FindAsync(id);
             if (designacao == null)
             {
                 return NotFound();
             }
-            ViewData["AjudanteId"] = new SelectList(_context.publicadores, "Id", "Nome", designacao.AjudanteId);
-            ViewData["DesignadoId"] = new SelectList(_context.publicadores, "Id", "Nome", designacao.DesignadoId);
-            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
 
+            await CarregarViewDatasDoFormulario();
             return View(designacao);
         }
 
@@ -148,7 +158,7 @@ namespace App.Controllers
 
             if (ModelState.IsValid)
             {
-                var designacao = await _context.designacoes.FindAsync(model.Id);
+                var designacao = await _context.Designacoes.FindAsync(model.Id);
                 designacao.Atualizar(model.Data, model.DesignadoId, model.AjudanteId, model.Tipo, model.Observacao);
                 _context.Update(designacao);
                 await _context.SaveChangesAsync();
@@ -156,16 +166,14 @@ namespace App.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AjudanteId"] = new SelectList(_context.publicadores, "Id", "Nome", model.AjudanteId);
-            ViewData["DesignadoId"] = new SelectList(_context.publicadores, "Id", "Nome", model.DesignadoId);
-            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            await CarregarViewDatasDoFormulario();
 
             return View(model);
         }
 
         public async Task<IActionResult> Substituir(int id)
         {
-            var designacao = await _context.designacoes
+            var designacao = await _context.Designacoes
                 .FindAsync(id);
 
             var substituicao = new Designacao(designacao);
@@ -173,9 +181,7 @@ namespace App.Controllers
             if (designacao == null)
                 return NotFound();
 
-            ViewData["AjudanteId"] = new SelectList(_context.publicadores, "Id", "Nome", designacao.AjudanteId);
-            ViewData["DesignadoId"] = new SelectList(_context.publicadores, "Id", "Nome", designacao.DesignadoId);
-            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            await CarregarViewDatasDoFormulario();
             ViewData["DesignacaoPaiId"] = id;
 
             return View(substituicao);
@@ -189,7 +195,7 @@ namespace App.Controllers
 
             if (ModelState.IsValid)
             {
-                var designacao = await _context.designacoes.FindAsync(DesignacaoPaiId);
+                var designacao = await _context.Designacoes.FindAsync(DesignacaoPaiId);
 
                 designacao.Substituir(substituicaoModel, motivo);
 
@@ -199,9 +205,7 @@ namespace App.Controllers
                 return RedirectToAction(nameof(Details), new { id = designacao.Substituicao.Id });
             }
 
-            ViewData["AjudanteId"] = new SelectList(_context.publicadores, "Id", "Nome", substituicaoModel.AjudanteId);
-            ViewData["DesignadoId"] = new SelectList(_context.publicadores, "Id", "Nome", substituicaoModel.DesignadoId);
-            ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+            await CarregarViewDatasDoFormulario();
             ViewData["DesignacaoId"] = DesignacaoPaiId;
 
             return View(substituicaoModel);
@@ -209,14 +213,13 @@ namespace App.Controllers
 
         public async Task<IActionResult> Avancar(int id)
         {
-            var designacao = await _context.designacoes.FindAsync(id);
+            var designacao = await _context.Designacoes.FindAsync(id);
             designacao.Avancar();
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id = id });
         }
 
-        // GET: Designacoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -224,7 +227,7 @@ namespace App.Controllers
                 return NotFound();
             }
 
-            var designacao = await _context.designacoes
+            var designacao = await _context.Designacoes
                 .Include(d => d.Ajudante)
                 .Include(d => d.Designado)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -240,22 +243,22 @@ namespace App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var designacao = await _context.designacoes.FindAsync(id);
-            _context.designacoes.Remove(designacao);
+            var designacao = await _context.Designacoes.FindAsync(id);
+            _context.Designacoes.Remove(designacao);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DesignacaoExists(int id)
         {
-            return _context.designacoes.Any(e => e.Id == id);
+            return _context.Designacoes.Any(e => e.Id == id);
         }
 
         [Authorize]
         public async Task<IActionResult> Substituicoes()
         {
 
-            var substituicoes = await _context.designacoes
+            var substituicoes = await _context.Designacoes
                 .Include(a => a.Substituicao)
                 .Where(w => w.Substituicao != null)
                 .Select(a => new DesignacaoDTO
