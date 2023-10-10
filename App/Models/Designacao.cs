@@ -55,10 +55,10 @@ namespace App.Models
 
         public bool SemanaAtual(DateTime hoje)
         {
-            var segundaDessaSemana = this.Data.AddDays(-3);
-            var domingoDessaSemana = this.Data.AddDays(3);
+            var domingoDaDesignacao = Data.AddDays(-(int)Data.DayOfWeek);
+            var domingoDaSemanaAtual = hoje.AddDays(-(int)hoje.DayOfWeek);
 
-            return (hoje >= segundaDessaSemana && hoje <= domingoDessaSemana);
+            return domingoDaDesignacao.Date == domingoDaSemanaAtual.Date;
         }
 
         internal void Atualizar(DateTime data, int designadoId, int? ajudanteId, string tipo, string observacao)
