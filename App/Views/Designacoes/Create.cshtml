@@ -12,57 +12,52 @@
 <form asp-action="Create">
     <div asp-validation-summary='All' class='text-danger'></div>
 
-    <div class="form-group mb-3">
-        <label asp-for="Data" class="control-label"></label>
+    <div class="mb-3">
+        <label asp-for="Data" class="form-label"></label>
         <input asp-for="Data" class="form-control" />
         <span asp-validation-for="Data" class="text-danger"></span>
     </div>
 
-    
-    <div class='form-group mb-3'>
-        <strong>Tipo de Parte</strong>
+
+    <div class='mb-3'>
+        <strong>Tipo de Parte</strong> <br>
 
         @foreach (var tipo in (string[])ViewData["Tipos"])
         {
-            <div class="form-check">
-                <input class="form-check-input" type="radio" asp-for='Tipo' value="@tipo" id='check(@tipo)'>
-                <label class="form-check-label" for="check(@tipo)">
-                    @tipo
-                </label>
-            </div>
+            <input type="radio" class="btn-check" name="Tipo" id='Tipo_@tipo' value='@tipo'>
+            <label class="btn btn-outline-success" for='Tipo_@tipo'>
+                @tipo
+            </label>
         }
 
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="DesignadoId" class="control-label"></label>
+    <div class="mb-3">
+        <label asp-for="DesignadoId" class="form-label"></label>
         <select asp-for="DesignadoId" class="form-control" asp-items="ViewBag.DesignadoId">
             <option value=""> Selecione </option>
         </select>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="AjudanteId" class="control-label"></label>
+    <div class="mb-3">
+        <label asp-for="AjudanteId" class="form-label"></label>
         <select asp-for="AjudanteId" class="form-control" asp-items="ViewBag.AjudanteId">
             <option value=""> Sem ajudante </option>
         </select>
     </div>
 
 
-    <div class="form-group mb-3">
-        <label asp-for="Observacao" class="control-label"></label>
+    <div class="mb-3">
+        <label asp-for="Observacao" class="form-label"></label>
         <input asp-for="Observacao" class="form-control" />
         <span asp-validation-for="Observacao" class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <input type="submit" value="✅Salvar" class="btn btn-primary" />
+    <div class="mb-3 d-flex justify-content-end">
+        <a asp-action="Index" class='btn btn-secondary'>⬅️ Voltar</a>
+        <input type="submit" value="✅Salvar Nova Designacao" class="btn btn-primary ms-2" />
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Voltar</a>
-</div>
 
 @section Scripts {
     @{

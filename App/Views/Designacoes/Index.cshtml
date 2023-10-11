@@ -11,49 +11,34 @@
 
 <div class="accordion" id="accordionExample">
 
-
     @foreach (var grupo in Model)
     {
         var reff = grupo.FirstOrDefault();
 
-        <div class="card">
+        <div class="accordion-item">
 
-            <div class="card-header d-flex" id="headingOne">
+            <h2 class="accordion-header">
 
-
-                <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@reff.Id"
-                    aria-expanded="true" aria-controls="collapse-@reff.Id">
-                        @grupo.Key.ToString("dd 'd'e MMMM")
-                    </button>
-                </h2>
-
-                <button class='ml-auto btn btn-success' type="button" onclick="CopiarDesignacao(this)">
-                    Copiar
+                <button class='accordion-button @(!reff.SemanaAtual ? "collapsed" : "")' type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-@reff.Id">                      
+                    🗓️ @grupo.Key.ToString("dd 'd'e MMMM")
                 </button>
 
-                <textarea class='esconder'>
-    *@grupo.Key.ToString("dd 'd'e MMMM") - Designações dos estudantes*                   
-                    @foreach (var designacao in grupo)
-                    {
-                        @:*@designacao.Tipo @designacao.Observacao -* @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
-                    }                    
-                    </textarea>
-            </div>
+            </h2>
 
-            <div id="collapse-@reff.Id" class="collapse @(reff.SemanaAtual ? "show" : "")" aria-labelledby="headingOne"
-            data-parent="#accordionExample">
-                <div class="card-body">
+            <div id="collapse-@reff.Id" class='accordion-collapse collapse @(reff.SemanaAtual ? "show" : "")'
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
 
                     <div class='list-group list-group-flush '>
                         @foreach (var designacao in grupo)
                         {
                             <a class='list-group-item list-group-item-action' asp-action='Details'
-                        asp-route-id='@designacao.Id'>
+                                asp-route-id='@designacao.Id'>
 
                                 <strong>
                                     @designacao.Tipo @designacao.Observacao
-                                    <span class='text-danger'>@(designacao.EhSubstituicao ? "[Substituição]":"")</span>
+                                    <span class='text-danger'>@(designacao.EhSubstituicao ? "[Substituição]" : "")</span>
                                 </strong>
                                 <br>
 
@@ -65,8 +50,6 @@
 
                 </div>
             </div>
-
         </div>
     }
-
 </div>

@@ -7,7 +7,9 @@
         "bSort": false
     })
 
-    $('select').select2()
+    $('select').select2({
+        theme: 'bootstrap-5'
+    })
 
 })
 
@@ -18,5 +20,5 @@ function CopiarDesignacao(botao) {
     $designacao.select()
     $designacao.setSelectionRange(0, 99999) /* For mobile devices */
 
-    document.execCommand("copy", false, $designacao.value.trim())    
+    document.execCommand("copy", false, $designacao.value.trim())
 }
