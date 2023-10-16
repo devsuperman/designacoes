@@ -100,7 +100,5 @@ h1{
 }
 
 .esconder{
-  width: 0;
-  height: 0;
-  z-index: -999;
+  display: none;
 }

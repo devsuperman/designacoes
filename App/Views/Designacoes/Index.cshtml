@@ -17,14 +17,14 @@
 
         <div class="accordion-item">
 
-            <h2 class="accordion-header">
+            <div class="accordion-header d-flex">
 
-                <button class='accordion-button @(!reff.SemanaAtual ? "collapsed" : "")' type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapse-@reff.Id">                      
+                <button class='accordion-button @(!reff.SemanaAtual ? "collapsed" : "")' type="button"
+                    data-bs-toggle="collapse" data-bs-target="#collapse-@reff.Id">
                     🗓️ @grupo.Key.ToString("dd 'd'e MMMM")
                 </button>
 
-            </h2>
+            </div>
 
             <div id="collapse-@reff.Id" class='accordion-collapse collapse @(reff.SemanaAtual ? "show" : "")'
                 data-bs-parent="#accordionExample">
@@ -46,6 +46,19 @@
                             "e" : "") @designacao.Ajudante</span>
                             </a>
                         }
+                        <a class='list-group-item' href='#'>
+                            <button class='ml-auto btn btn-success' type="button" onclick="CopiarDesignacao(this)">
+                                Copiar
+                            </button>
+
+                            <textarea class='esconder'>
+                                *@grupo.Key.ToString("dd 'd'e MMMM") - Designações dos estudantes*                   
+                                @foreach (var designacao in grupo)
+                                {
+                                    @:*@designacao.Tipo @designacao.Observacao -* @designacao.Designado @(designacao.Ajudante != null ? $"e {designacao.Ajudante}" : "") @(designacao.EhSubstituicao ? "[Substituição]" : "")
+                                }                    
+                            </textarea>
+                        </a>
                     </div>
 
                 </div>

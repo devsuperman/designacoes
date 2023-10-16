@@ -16,9 +16,9 @@
 function CopiarDesignacao(botao) {
 
     let $designacao = botao.nextElementSibling
-
+    
     $designacao.select()
-    $designacao.setSelectionRange(0, 99999) /* For mobile devices */
+    $designacao.setSelectionRange(0, 99999)
 
-    document.execCommand("copy", false, $designacao.value.trim())
+    navigator.clipboard.writeText($designacao.value.trim());
 }
