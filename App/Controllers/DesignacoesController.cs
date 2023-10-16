@@ -22,7 +22,7 @@ namespace App.Controllers
             _context = context;
         }
 
-        [AllowAnonymous, HttpGet("/")]
+        [HttpGet("/")]
         public async Task<IActionResult> Index()
         {
             var hoje = DateTime.Now;
@@ -59,7 +59,6 @@ namespace App.Controllers
             return View(listaAgrupada);
         }
 
-        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
