@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 lista.forEach(publicador => {
 
-                    let ultimaDesignacao = ' Nunca designado com esse irmao.'
+                    let ultimaDesignacao = ''
 
                     if (publicador.data) {
                         let date = new Date(publicador.data)
-                        ultimaDesignacao = 'Última designacao com o irmao em ' + date.toLocaleDateString()
+                        ultimaDesignacao = date.toLocaleDateString()
                     }
 
                     options += `<option value='${publicador.id}'>${publicador.nome} - ${ultimaDesignacao} </option>`
