@@ -59,6 +59,7 @@ namespace App.Controllers
             return View(listaAgrupada);
         }
 
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -111,6 +112,8 @@ namespace App.Controllers
             return View(designacao);
         }
 
+
+
         private async Task CarregarViewDatasDoFormulario()
         {
             var publicadoresDisponiveis = await _context.Publicadores
@@ -125,11 +128,63 @@ namespace App.Controllers
 
             publicadoresDisponiveis = publicadoresDisponiveis
                 .OrderBy(o => o.UltimaDesignacao?.Data)
+                .ThenBy(t => t.Nome)
                 .ToList();
 
             ViewData["AjudanteId"] = new SelectList(publicadoresDisponiveis, "Id", "NomeComData");
             ViewData["DesignadoId"] = new SelectList(publicadoresDisponiveis, "Id", "NomeComData");
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
+        }
+        public async Task<IActionResult> ListarAjudantes(int designadoId)
+        {
+            var designadoSexo = await _context.Publicadores
+                .AsNoTracking()
+                .Where(w => w.Id == designadoId)
+                .Select(s => s.Sexo)
+                .FirstOrDefaultAsync();
+
+            var publicadores = await _context.Publicadores
+                .AsNoTracking()
+                .Where(w =>
+                    !w.ImpedidoDeFazerPartes &&
+                    w.Id != designadoId &&
+                    w.Sexo == designadoSexo)
+                .Select(s => new ListarPublicador
+                {
+                    Id = s.Id,
+                    Nome = s.Nome
+                })
+                .ToListAsync();
+
+            var designacoes = await _context.Designacoes
+                .AsNoTracking()
+                .OrderByDescending(o => o.Id)
+                .Where(w =>
+                    w.DesignadoId == designadoId ||
+                    w.AjudanteId == designadoId)
+                .Select(s => new
+                {
+                    DesignadoId = s.DesignadoId,
+                    AjudanteId = s.AjudanteId,
+                    Data = s.Data
+                })
+                .ToListAsync();
+
+            var lista = publicadores
+                .Select(s => new
+                {
+                    Id = s.Id,
+                    Nome = s.Nome,
+                    Data = designacoes.FirstOrDefault(w =>
+                            (w.DesignadoId == designadoId && w.AjudanteId == s.Id) ||
+                            (w.DesignadoId == s.Id && w.AjudanteId == designadoId)
+                        )?.Data
+                })
+                .OrderBy(o => o.Data)
+                .ThenBy(t => t.Nome)
+                .ToList();
+
+            return Ok(lista);
         }
 
         public async Task<IActionResult> Edit(int? id)

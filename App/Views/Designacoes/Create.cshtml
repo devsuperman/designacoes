@@ -60,7 +60,6 @@
 </form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src='~/js/designacoes/create.js' asp-append-version="true"></script>
 }

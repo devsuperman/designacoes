@@ -6,11 +6,7 @@
         },
         "bSort": false
     })
-
-    $('select').select2({
-        theme: 'bootstrap-5'
-    })
-
+    
 })
 
 function CopiarDesignacao(botao) {
