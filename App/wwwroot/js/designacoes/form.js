@@ -2,15 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const $designado = document.querySelector("#DesignadoId")
     const $ajudante = document.querySelector("#AjudanteId")
-    const $tipo =
 
-        $designado.addEventListener('change', AtualizarAjudantes)
+    $designado.addEventListener('change', AtualizarAjudantes)
 
     function AtualizarAjudantes() {
 
         $ajudante.innerHTML = "<option value='0'> Carregando... </option>"
 
-        const designadoNome = $designado.options[$designado.selectedIndex].text;
         const url = '/Designacoes/ListarAjudantes?designadoId=' + $designado.value
 
         fetch(url)

@@ -5,7 +5,7 @@
 }
 
 <h1>
-    📃 Designação @Model.Situacao
+    <i class="bi bi-card-text"></i> Designação @Model.Situacao
 </h1>
 <input type='hidden' asp-for='Tipo'>
 
@@ -14,24 +14,15 @@
 
         <div class='d-flex justify-content-between'>
 
-            <a asp-action="Index" class='btn btn-light'>↩ Voltar</a>
+            <a asp-action="Index" class='btn btn-light'><i class="bi bi-arrow-left"></i>  Voltar</a>
 
 
             <a asp-action='Substituir' asp-route-id='@Model.Id' class='btn btn-light'>
-                🔃 Substituir
+                <i class="bi bi-recycle"></i> Substituir
             </a>
 
-            <a asp-action="Edit" asp-route-id="@Model.Id" class='btn btn-light'>📝 Editar </a>
-
-            <form asp-action='Avancar'>
-
-                <button type="submit" class='btn btn-light'>
-                    ⏩ Avançar
-                </button>
-
-                <input type='hidden' asp-for='Id'>
-
-            </form>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class='btn btn-light'><i class="bi bi-pen"></i> Editar </a>
+            
         </div>
 
         <div class='d-flex justify-content-center'>
@@ -49,21 +40,27 @@
                     <p class="d-flex">
                         <strong class='mr-2'>Nome: </strong>
                         <span class='linha-pontilhada flex-grow-1'>
-                            @Model.Designado.Nome
+                            <span class="ms-2">
+                                @Model.Designado.Nome
+                            </span>
                         </span>
                     </p>
 
                     <p class='d-flex'>
                         <strong class='mr-2'>Ajudante: </strong>
                         <span class='linha-pontilhada flex-grow-1'>
-                            @Model.Ajudante?.Nome
+                            <span class="ms-2">
+                                @Model.Ajudante?.Nome
+                            </span>
                         </span>
                     </p>
 
                     <p class='d-flex'>
                         <strong class='mr-2'>Data: </strong>
                         <span class='linha-pontilhada flex-grow-1'>
-                            @Model.Data.ToShortDateString()
+                            <span class="ms-2">
+                                @Model.Data.ToShortDateString()
+                            </span>
                         </span>
                     </p>
 

@@ -4,10 +4,14 @@
     ViewData["Title"] = "Designações";
 }
 
-<h1>
-    <a asp-action="Create" class='btn btn-primary'> + </a>
-    📃 @ViewData["Title"]
-</h1>
+<div class='d-flex mb-2'>
+    <h1 class="flex-grow-1">
+        <i class="bi bi-card-text"></i> @ViewData["Title"]
+    </h1>
+    <div>
+        <a asp-action="Create" class='btn btn-primary'> + Nova </a>
+    </div>
+</div>
 
 <div class="accordion" id="accordionExample">
 
@@ -21,7 +25,8 @@
 
                 <button class='accordion-button @(!reff.SemanaAtual ? "collapsed" : "")' type="button"
                     data-bs-toggle="collapse" data-bs-target="#collapse-@reff.Id">
-                    🗓️ @grupo.Key.ToString("dd 'd'e MMMM")
+                    <i class="bi bi-calendar3 me-1"></i> 
+                    @grupo.Key.ToString("dd 'd'e MMMM")
                 </button>
 
             </div>
@@ -48,6 +53,7 @@
                         }
                         <a class='list-group-item' href='#'>
                             <button class='ml-auto btn btn-success' type="button" onclick="CopiarDesignacao(this)">
+                                <i class="bi bi-copy"></i> 
                                 Copiar
                             </button>
 
