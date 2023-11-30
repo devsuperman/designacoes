@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(lista => {
 
 
-                let options = '<option value="0"> Pronto! Selecione! </option>'
+                let options = '<option value=""> Pronto! Selecione! </option>'
 
                 lista.forEach(publicador => {
 
