@@ -9,7 +9,12 @@ namespace App.Constantes
             "Primeira Conversa",
             "Revisita",
             "Estudo Bíblico",
-            "Discurso"
+            "Discurso",
+            "Interesse pelas Pessoas",
+            "Iniciando Conversas",
+            "Fazendo Discipulos",
+            "Explicando suas Crencas",
+            "Cultivando o Interesse"
          };
     }
 }
