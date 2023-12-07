@@ -10,7 +10,6 @@ namespace App.Constantes
             "Revisita",
             "Estudo Bíblico",
             "Discurso",
-            "Interesse pelas Pessoas",
             "Iniciando Conversas",
             "Fazendo Discipulos",
             "Explicando suas Crencas",
