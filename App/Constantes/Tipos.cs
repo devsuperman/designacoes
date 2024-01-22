@@ -6,9 +6,9 @@ namespace App.Constantes
         {
             // "Convite da Celebração",
             "Leitura",
-            "Primeira Conversa",
-            "Revisita",
-            "Estudo Bíblico",
+            // "Primeira Conversa",
+            // "Revisita",
+            // "Estudo Bíblico",
             "Discurso",
             "Iniciando Conversas",
             "Fazendo Discipulos",
