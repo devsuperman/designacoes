@@ -48,9 +48,10 @@ namespace App.Controllers
 
             var listaAgrupada = lista
                 .OrderBy(o => o.Tipo.Contains("Discurso"))
-                    .ThenBy(o => o.Tipo.Contains("Estudo"))
-                    .ThenBy(o => o.Tipo.Contains("Revisita"))
-                    .ThenBy(o => o.Tipo.Contains("Primeira"))
+                    .ThenBy(o => o.Tipo.Contains("Explicando"))
+                    .ThenBy(o => o.Tipo.Contains("Fazendo"))
+                    .ThenBy(o => o.Tipo.Contains("Cultivando"))
+                    .ThenBy(o => o.Tipo.Contains("Iniciando"))
                     .ThenBy(o => o.Tipo.Contains("Leitura"))
                 .GroupBy(a => a.Data)
                 .OrderByDescending(a => a.Key)
