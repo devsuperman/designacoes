@@ -136,19 +136,12 @@ namespace App.Controllers
             ViewData["Tipos"] = Tipos.TiposDeDesignacao;
         }
         public async Task<IActionResult> ListarAjudantes(int designadoId)
-        {
-            var designadoSexo = await _context.Publicadores
-                .AsNoTracking()
-                .Where(w => w.Id == designadoId)
-                .Select(s => s.Sexo)
-                .FirstOrDefaultAsync();
-
+        {       
             var publicadores = await _context.Publicadores
                 .AsNoTracking()
                 .Where(w =>
                     !w.ImpedidoDeFazerPartes &&
-                    w.Id != designadoId &&
-                    w.Sexo == designadoSexo)
+                    w.Id != designadoId)
                 .Select(s => new ListarPublicador
                 {
                     Id = s.Id,
