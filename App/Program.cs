@@ -14,8 +14,6 @@ Console.WriteLine("LOG: " + cnn);
 builder.Services.AddDbContext<Contexto>(a =>
                 a.UseMySql(cnn, ServerVersion.AutoDetect(cnn)));
 
-Console.WriteLine("LOG: Passou da connection string");
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o =>
                 {
