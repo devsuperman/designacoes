@@ -26,7 +26,7 @@
 
         @foreach (var tipo in (string[])ViewData["Tipos"])
         {
-            <input type="radio" class="btn-check" name="Tipo" id='Tipo_@tipo' value='@tipo'>
+            <input type="radio" class="btn-check" name="Tipo" id='Tipo_@tipo' value='@tipo' @(Model.Tipo == tipo ? "checked" :"")>
             <label class="btn btn-outline-success" for='Tipo_@tipo'>
                 @tipo
             </label>
