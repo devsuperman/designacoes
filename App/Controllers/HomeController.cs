@@ -1,54 +1,81 @@
-﻿
-using App.Models;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Diagnostics;
+using App.Models;
 
-namespace App.Controllers
+namespace App.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IWebHostEnvironment _hostingEnvironment;
+
+    public HomeController(IWebHostEnvironment hostingEnvironment)
     {
-        public IActionResult Login() => View();
+        _hostingEnvironment = hostingEnvironment;
+    }
 
+    public IActionResult Arquivos(string location = "")
+    {
+        var webRootPath = _hostingEnvironment.WebRootPath;
 
-        [HttpPost]
-        public async Task<IActionResult> Login(string senha)
+        location = Path.Combine(webRootPath, location);
+
+        var nomesArquivos = new List<string>();
+
+        if (Directory.Exists(location))
         {
-            if (senha == "8318")
+            string[] arquivos = Directory.GetFiles(location);
+
+            foreach (string arquivo in arquivos)
+                nomesArquivos.Add(Path.GetFileName(arquivo));
+
+            string[] pastas = Directory.GetDirectories(location);
+
+            foreach (string pasta in pastas)
+                nomesArquivos.Add("/" + Path.GetFileName(pasta));
+        }
+
+        return Ok(nomesArquivos);
+    }
+
+    public IActionResult Login() => View();
+
+
+    [HttpPost]
+    public async Task<IActionResult> Login(string senha)
+    {
+        if (senha == "8318")
+        {
+            await Logar();
+            return RedirectToAction("Index", "Designacoes");
+        }
+
+        return View();
+    }
+
+    private async Task Logar()
+    {
+        var claims = new List<Claim>
             {
-                await Logar();
-                return RedirectToAction("Index", "Designacoes");
-            }
+                new Claim(ClaimTypes.Name, "Tiago"),
+                new Claim(ClaimTypes.NameIdentifier, "Tiago")
+            };
 
-            return View();
-        }
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
+        var authProperties = new AuthenticationProperties { IsPersistent = true };
 
-        private async Task Logar()
-        {
-            var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, "Tiago"),
-                    new Claim(ClaimTypes.NameIdentifier, "Tiago")
-                };
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            claimPrincipal,
+            authProperties);
+    }
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var authProperties = new AuthenticationProperties { IsPersistent = true };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                claimPrincipal,
-                authProperties);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
