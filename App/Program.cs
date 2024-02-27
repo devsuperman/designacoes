@@ -5,6 +5,7 @@ using App.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.WebHost.UseContentRoot("");
 builder.Services.AddControllersWithViews();
 
 var cnn = ConnectionHelper.GetConnectionString(builder.Configuration);
@@ -32,10 +33,10 @@ if (portVar is { Length: > 0 } && int.TryParse(portVar, out int port))
     });
 }
 
-var current = Directory.GetCurrentDirectory();
-var teste = AppContext.BaseDirectory;
+//var current = Directory.GetCurrentDirectory();
+//var teste = AppContext.BaseDirectory;
 
-builder.WebHost.UseKestrel().UseContentRoot(teste);
+//builder.WebHost.UseKestrel().UseContentRoot(teste);
 
 var app = builder.Build();
 
@@ -46,7 +47,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UsarCulturaBrasileira();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
