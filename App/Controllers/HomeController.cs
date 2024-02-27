@@ -26,22 +26,11 @@ public class HomeController : Controller
         _logger.LogWarning("LOG WEBROOTPATH: " + webRootPath);
         _logger.LogWarning("LOG LOCATION: " + location);
 
-
-        if (string.IsNullOrWhiteSpace(_hostingEnvironment.WebRootPath))
-        {
-            webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            _hostingEnvironment.WebRootPath = webRootPath;
-            _logger.LogWarning("LOG WEBROOTPATH2: " + webRootPath);
-        }
-
-        location = Path.Combine(webRootPath, location);
-
-        _logger.LogWarning("LOG LOCATION2: " + location);
-
         var nomesArquivos = new List<string>();
 
         if (Directory.Exists(location))
         {
+            _logger.LogWarning("LOG: DIRETORIO EXISTE");
             string[] arquivos = Directory.GetFiles(location);
 
             foreach (string arquivo in arquivos)

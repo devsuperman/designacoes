@@ -21,15 +21,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
+
 var portVar = Environment.GetEnvironmentVariable("PORT");
 
 if (portVar is { Length: > 0 } && int.TryParse(portVar, out int port))
 {
     builder.WebHost.ConfigureKestrel(options =>
     {
-        options.ListenAnyIP(port);        
+        options.ListenAnyIP(port);                
     });
 }
+
+var current = Directory.GetCurrentDirectory();
+var teste = AppContext.BaseDirectory;
+
+builder.WebHost.UseKestrel().UseContentRoot(teste);
 
 var app = builder.Build();
 
