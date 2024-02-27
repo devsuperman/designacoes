@@ -4,23 +4,31 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Diagnostics;
 using App.Models;
+using System.ComponentModel;
 
 namespace App.Controllers;
 
 public class HomeController : Controller
 {
     private readonly IWebHostEnvironment _hostingEnvironment;
+    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(IWebHostEnvironment hostingEnvironment)
+    public HomeController(IWebHostEnvironment hostingEnvironment, ILogger<HomeController> logger)
     {
         _hostingEnvironment = hostingEnvironment;
+        _logger = logger;
     }
 
     public IActionResult Arquivos(string location = "")
     {
         var webRootPath = _hostingEnvironment.WebRootPath;
 
+        _logger.LogWarning("LOG TIAGO: " + webRootPath);
+        _logger.LogWarning("LOG TIAGO: " + location);
+
         location = Path.Combine(webRootPath, location);
+
+        _logger.LogWarning("LOG TIAGO: " + location);
 
         var nomesArquivos = new List<string>();
 

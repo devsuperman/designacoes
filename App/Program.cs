@@ -9,8 +9,6 @@ builder.Services.AddControllersWithViews();
 
 var cnn = ConnectionHelper.GetConnectionString(builder.Configuration);
 
-Console.WriteLine("LOG: " + cnn);
-
 builder.Services.AddDbContext<Contexto>(a =>
                 a.UseMySql(cnn, ServerVersion.AutoDetect(cnn)));
 
