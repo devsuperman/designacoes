@@ -23,12 +23,20 @@ public class HomeController : Controller
     {
         var webRootPath = _hostingEnvironment.WebRootPath;
 
-        _logger.LogWarning("LOG TIAGO: " + webRootPath);
-        _logger.LogWarning("LOG TIAGO: " + location);
+        _logger.LogWarning("LOG WEBROOTPATH: " + webRootPath);
+        _logger.LogWarning("LOG LOCATION: " + location);
+
+
+        if (string.IsNullOrWhiteSpace(_hostingEnvironment.WebRootPath))
+        {
+            webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            _hostingEnvironment.WebRootPath = webRootPath;
+            _logger.LogWarning("LOG WEBROOTPATH2: " + webRootPath);
+        }
 
         location = Path.Combine(webRootPath, location);
 
-        _logger.LogWarning("LOG TIAGO: " + location);
+        _logger.LogWarning("LOG LOCATION2: " + location);
 
         var nomesArquivos = new List<string>();
 
