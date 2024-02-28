@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using App.Extensions;
 using App.Data;
 
-var currentDirectory = Directory.GetCurrentDirectory();
 var baseDirectory = AppContext.BaseDirectory;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions { ContentRootPath = baseDirectory});
