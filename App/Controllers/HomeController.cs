@@ -22,8 +22,9 @@ public class HomeController : Controller
     public IActionResult Arquivos(string location = "")
     {
         var webRootPath = _hostingEnvironment.WebRootPath;
-
         _logger.LogWarning("LOG WEBROOTPATH: " + webRootPath);
+
+        location = Path.Combine(webRootPath, location);
         _logger.LogWarning("LOG LOCATION: " + location);
 
         var nomesArquivos = new List<string>();

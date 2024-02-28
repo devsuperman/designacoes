@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using App.Extensions;
 using App.Data;
 
-var builder = WebApplication.CreateBuilder(args);
+var currentDirectory = Directory.GetCurrentDirectory();
+var baseDirectory = AppContext.BaseDirectory;
 
-//builder.WebHost.UseContentRoot("");
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions { ContentRootPath = baseDirectory});
+
 builder.Services.AddControllersWithViews();
 
 var cnn = ConnectionHelper.GetConnectionString(builder.Configuration);
@@ -29,14 +31,12 @@ if (portVar is { Length: > 0 } && int.TryParse(portVar, out int port))
 {
     builder.WebHost.ConfigureKestrel(options =>
     {
-        options.ListenAnyIP(port);                
+        options.ListenAnyIP(port);
     });
 }
 
-//var current = Directory.GetCurrentDirectory();
-//var teste = AppContext.BaseDirectory;
 
-//builder.WebHost.UseKestrel().UseContentRoot(teste);
+
 
 var app = builder.Build();
 
@@ -47,7 +47,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UsarCulturaBrasileira();
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
